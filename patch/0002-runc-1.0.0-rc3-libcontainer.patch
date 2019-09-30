@@ -1,0 +1,119 @@
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go b/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go
+index 890cd7d..87cddc3 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go
+@@ -256,8 +256,12 @@ func (hooks Hooks) MarshalJSON() ([]byte, error) {
+ 	})
+ }
+ 
+-// HookState is the payload provided to a hook on execution.
+-type HookState specs.State
++type SpecState specs.State
++
++type HookState struct {
++	SpecState
++	Root string `json:"root"`
++}
+ 
+ type Hook interface {
+ 	// Run executes the hook with the provided state.
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go
+index 28dff86..f4855f4 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go
+@@ -275,10 +275,13 @@ func (c *linuxContainer) start(process *Process, isInit bool) error {
+ 
+ 		if c.config.Hooks != nil {
+ 			s := configs.HookState{
+-				Version: c.config.Version,
+-				ID:      c.id,
+-				Pid:     parent.pid(),
+-				Bundle:  utils.SearchLabels(c.config.Labels, "bundle"),
++				SpecState: configs.SpecState{
++					Version: c.config.Version,
++					ID:      c.id,
++					Pid:     parent.pid(),
++					Bundle:  utils.SearchLabels(c.config.Labels, "bundle"),
++				},
++				Root: c.config.Rootfs,
+ 			}
+ 			for i, hook := range c.config.Hooks.Poststart {
+ 				if err := hook.Run(s); err != nil {
+@@ -1144,10 +1147,13 @@ func (c *linuxContainer) criuNotifications(resp *criurpc.CriuResp, process *Proc
+ 	case notify.GetScript() == "setup-namespaces":
+ 		if c.config.Hooks != nil {
+ 			s := configs.HookState{
+-				Version: c.config.Version,
+-				ID:      c.id,
+-				Pid:     int(notify.GetPid()),
+-				Bundle:  utils.SearchLabels(c.config.Labels, "bundle"),
++				SpecState: configs.SpecState{
++					Version: c.config.Version,
++					ID:      c.id,
++					Pid:     int(notify.GetPid()),
++					Bundle:  utils.SearchLabels(c.config.Labels, "bundle"),
++				},
++				Root: c.config.Rootfs,
+ 			}
+ 			for i, hook := range c.config.Hooks.Prestart {
+ 				if err := hook.Run(s); err != nil {
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/process_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/process_linux.go
+index 0f79a38..131e8e6 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/process_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/process_linux.go
+@@ -298,10 +298,13 @@ func (p *initProcess) start() error {
+ 			if !p.config.Config.Namespaces.Contains(configs.NEWNS) {
+ 				if p.config.Config.Hooks != nil {
+ 					s := configs.HookState{
+-						Version: p.container.config.Version,
+-						ID:      p.container.id,
+-						Pid:     p.pid(),
+-						Bundle:  utils.SearchLabels(p.config.Config.Labels, "bundle"),
++						SpecState: configs.SpecState{
++							Version: p.container.config.Version,
++							ID:      p.container.id,
++							Pid:     p.pid(),
++							Bundle:  utils.SearchLabels(p.config.Config.Labels, "bundle"),
++						},
++						Root: p.config.Config.Rootfs,
+ 					}
+ 					for i, hook := range p.config.Config.Hooks.Prestart {
+ 						if err := hook.Run(s); err != nil {
+@@ -318,10 +321,13 @@ func (p *initProcess) start() error {
+ 		case procHooks:
+ 			if p.config.Config.Hooks != nil {
+ 				s := configs.HookState{
+-					Version: p.container.config.Version,
+-					ID:      p.container.id,
+-					Pid:     p.pid(),
+-					Bundle:  utils.SearchLabels(p.config.Config.Labels, "bundle"),
++					SpecState: configs.SpecState{
++						Version: p.container.config.Version,
++						ID:      p.container.id,
++						Pid:     p.pid(),
++						Bundle:  utils.SearchLabels(p.config.Config.Labels, "bundle"),
++					},
++					Root: p.config.Config.Rootfs,
+ 				}
+ 				for i, hook := range p.config.Config.Hooks.Prestart {
+ 					if err := hook.Run(s); err != nil {
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go
+index 62878ac..9f8def2 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go
+@@ -58,9 +58,12 @@ func destroy(c *linuxContainer) error {
+ func runPoststopHooks(c *linuxContainer) error {
+ 	if c.config.Hooks != nil {
+ 		s := configs.HookState{
+-			Version: c.config.Version,
+-			ID:      c.id,
+-			Bundle:  utils.SearchLabels(c.config.Labels, "bundle"),
++			SpecState: configs.SpecState{
++				Version: c.config.Version,
++				ID:      c.id,
++				Bundle:  utils.SearchLabels(c.config.Labels, "bundle"),
++			},
++			Root: c.config.Rootfs,
+ 		}
+ 		for _, hook := range c.config.Hooks.Poststop {
+ 			if err := hook.Run(s); err != nil {

@@ -1,0 +1,65 @@
+# github.com/Microsoft/go-winio v0.4.14
+github.com/Microsoft/go-winio
+github.com/Microsoft/go-winio/pkg/guid
+# github.com/Sirupsen/logrus v0.0.0-00010101000000-000000000000 => github.com/sirupsen/logrus v1.4.2
+github.com/Sirupsen/logrus
+# github.com/coreos/go-systemd v0.0.0-20161114122254-48702e0da86b
+github.com/coreos/go-systemd/dbus
+github.com/coreos/go-systemd/util
+# github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f
+github.com/coreos/pkg/dlopen
+# github.com/docker/docker v1.13.1
+github.com/docker/docker/pkg/reexec
+github.com/docker/docker/pkg/mount
+github.com/docker/docker/pkg/symlink
+github.com/docker/docker/pkg/longpath
+github.com/docker/docker/pkg/system
+# github.com/docker/go-units v0.4.0
+github.com/docker/go-units
+# github.com/docker/libnetwork v0.5.6
+github.com/docker/libnetwork/netutils
+github.com/docker/libnetwork/types
+# github.com/godbus/dbus v4.1.0+incompatible
+github.com/godbus/dbus
+# github.com/golang/protobuf v1.3.2
+github.com/golang/protobuf/proto
+# github.com/konsorten/go-windows-terminal-sequences v1.0.1
+github.com/konsorten/go-windows-terminal-sequences
+# github.com/mrunalp/fileutils v0.0.0-20171103030105-7d4729fb3618
+github.com/mrunalp/fileutils
+# github.com/opencontainers/runc v1.0.0-rc3
+github.com/opencontainers/runc/libcontainer/nsenter
+github.com/opencontainers/runc/libcontainer/selinux
+github.com/opencontainers/runc/libcontainer
+github.com/opencontainers/runc/libcontainer/configs
+github.com/opencontainers/runc/libcontainer/cgroups
+github.com/opencontainers/runc/libcontainer/utils
+github.com/opencontainers/runc/libcontainer/system
+github.com/opencontainers/runc/libcontainer/apparmor
+github.com/opencontainers/runc/libcontainer/cgroups/fs
+github.com/opencontainers/runc/libcontainer/cgroups/systemd
+github.com/opencontainers/runc/libcontainer/configs/validate
+github.com/opencontainers/runc/libcontainer/criurpc
+github.com/opencontainers/runc/libcontainer/keys
+github.com/opencontainers/runc/libcontainer/label
+github.com/opencontainers/runc/libcontainer/seccomp
+github.com/opencontainers/runc/libcontainer/stacktrace
+github.com/opencontainers/runc/libcontainer/user
+# github.com/opencontainers/runtime-spec v1.0.0-rc5
+github.com/opencontainers/runtime-spec/specs-go
+# github.com/seccomp/libseccomp-golang v0.9.1
+github.com/seccomp/libseccomp-golang
+# github.com/sirupsen/logrus v1.4.2
+github.com/sirupsen/logrus
+# github.com/syndtr/gocapability v0.0.0-20180916011248-d98352740cb2
+github.com/syndtr/gocapability/capability
+# github.com/urfave/cli v1.21.0
+github.com/urfave/cli
+# github.com/vishvananda/netlink v1.0.0
+github.com/vishvananda/netlink
+github.com/vishvananda/netlink/nl
+# github.com/vishvananda/netns v0.0.0-20190625233234-7109fa855b0f
+github.com/vishvananda/netns
+# golang.org/x/sys v0.0.0-20190507160741-ecd444e8653b => github.com/golang/sys v0.0.0-20190813064441-fde4db37ae7a
+golang.org/x/sys/unix
+golang.org/x/sys/windows

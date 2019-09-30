@@ -1,0 +1,49 @@
+#!/bin/sh
+# Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
+# isulad-tools is licensed under the Mulan PSL v1.
+# You can use this software according to the terms and conditions of the Mulan PSL v1.
+# You may obtain a copy of Mulan PSL v1 at:
+#    http://license.coscl.org.cn/MulanPSL
+# THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR
+# PURPOSE.
+# See the Mulan PSL v1 for more details.
+# Description: isulad tools wrapper
+# Author: zhangwei
+# Create: 2018-01-18
+
+LOG_DIR=/var/log/hyperagent
+LOG_FILE=${LOG_DIR}/isulad-tools.log
+
+## by default, isulad is installed in /usr/bin,
+## but udevd do not have this path in PATH env
+export PATH=$PATH:/usr/bin:/usr/local/bin:/usr/sbin
+[ -d "$LOG_DIR" ] || mkdir -p $LOG_DIR
+
+run_cmd() {
+	echo [$(date)]: $@ >> $LOG_FILE
+	$@
+}
+add_node() {
+	run_cmd isulad-tools --log $LOG_FILE add-device $id /dev/$o_dev:$devname
+}
+remove_node() {
+	run_cmd isulad-tools --log $LOG_FILE remove-device $id /dev/$o_dev:$devname
+}
+
+
+## $1 : Udev Action: (add|remove)
+## $2 : Container ID
+## $3 : Devname to mknod on host, like: sdc1
+## $4 : Contianer device basename, like /dev/sdx
+## $5 : Basename of the device on host and kernel
+##
+##      We need to get the mknod number and compose with container device name together.
+##      eg: $3=sdc1, $4=/dev/sdx $5=sdc
+##      ==> $4 + ($3-$5) = /dev/sdx1
+action=$1
+id=$2
+o_dev=$3
+devname=$4$(echo $3 | sed "s/$5//g")
+
+${action}_node

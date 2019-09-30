@@ -1,0 +1,65 @@
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go b/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go
+index 87cddc3..c4e89ac 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/configs/config.go
+@@ -7,7 +7,7 @@ import (
+ 	"os/exec"
+ 	"time"
+ 
+-	"github.com/Sirupsen/logrus"
++	"github.com/sirupsen/logrus"
+ 	"github.com/opencontainers/runtime-spec/specs-go"
+ )
+ 
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go
+index f4855f4..9c949fd 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/container_linux.go
+@@ -17,7 +17,7 @@ import (
+ 	"syscall"
+ 	"time"
+ 
+-	"github.com/Sirupsen/logrus"
++	"github.com/sirupsen/logrus"
+ 	"github.com/golang/protobuf/proto"
+ 	"github.com/opencontainers/runc/libcontainer/cgroups"
+ 	"github.com/opencontainers/runc/libcontainer/configs"
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/init_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/init_linux.go
+index 39b83a4..6d7958b 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/init_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/init_linux.go
+@@ -14,7 +14,7 @@ import (
+ 	"syscall"
+ 	"unsafe"
+ 
+-	"github.com/Sirupsen/logrus"
++	"github.com/sirupsen/logrus"
+ 	"github.com/opencontainers/runc/libcontainer/cgroups"
+ 	"github.com/opencontainers/runc/libcontainer/configs"
+ 	"github.com/opencontainers/runc/libcontainer/system"
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/rootfs_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/rootfs_linux.go
+index 2635fd6..7b4fc00 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/rootfs_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/rootfs_linux.go
+@@ -539,7 +539,7 @@ func getMountInfo(mountinfo []*mount.Info, dir string) *mount.Info {
+ func getParentMount(rootfs string) (string, string, error) {
+ 	var path string
+ 
+-	mountinfos, err := mount.GetMounts()
++	mountinfos, err := mount.GetMounts(nil)
+ 	if err != nil {
+ 		return "", "", err
+ 	}
+diff --git a/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go
+index 9f8def2..f548dfb 100644
+--- a/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/state_linux.go
+@@ -8,7 +8,7 @@ import (
+ 	"path/filepath"
+ 	"syscall"
+ 
+-	"github.com/Sirupsen/logrus"
++	"github.com/sirupsen/logrus"
+ 	"github.com/opencontainers/runc/libcontainer/configs"
+ 	"github.com/opencontainers/runc/libcontainer/utils"
+ )
