@@ -4,7 +4,7 @@
 #Basic Information
 Name:           isulad-tools
 Version:        v0.9
-Release:        33%{?dist}
+Release:        33
 Summary:        isulad tools for IT, work with iSulad
 License:        Mulan PSL v1
 Source0:        %{name}-src.tar.gz
