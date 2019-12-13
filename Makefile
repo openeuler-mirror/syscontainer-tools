@@ -34,12 +34,12 @@ init:
 
 isulad-tools: $(SOURCES) | $(DEPS_LINK)
 	@echo "Making isulad-tools..."
-	${ENV} go build -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/isulad-tools .
+	${ENV} go build -mod=vendor -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/isulad-tools .
 	@echo "Done!"
 
 isulad-hooks: $(SOURCES) | $(DEPS_LINK)
 	@echo "Making isulad-hooks..."
-	${ENV} go build -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/isulad-hooks ./hooks/isulad-hooks
+	${ENV} go build -mod=vendor -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/isulad-hooks ./hooks/isulad-hooks
 	@echo "Done!"
 
 localtest:

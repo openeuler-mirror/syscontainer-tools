@@ -25,7 +25,6 @@ This is isulad tools, to make it work, you need a isulad and util-linux
 %setup -q -c -n src/isula.org/isulad-tools
 
 %build
-export GOPATH=%_topdir/BUILD
 make init && make
 
 %install

@@ -10,16 +10,6 @@ The project includes two main parts: `isulad-tools` and `hooks`.
 `isulad-tools` is used for dynamically operating on running containers,
 and `hooks` is used for executing user defined program at some special timepoint of container's lifecycle.
 
-## Compiling
-
-If you have golang environment on your host, you can compile and get binary with:
-
-```
-$ make init && make
-```
-
-After that, statically built binaries are put in `build` directory.
-
 ## Hooks
 
 We provide isulad hooks function.

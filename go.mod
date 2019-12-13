@@ -1,7 +1,6 @@
 module isula.org/isulad-tools
 
 replace (
-	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.4.2
 	golang.org/x/crypto => github.com/golang/crypto v0.0.0-20190701094942-4def268fd1a4
 	golang.org/x/net => github.com/golang/net v0.0.0-20190813141303-74dc4d7220e7
 	golang.org/x/sync => github.com/golang/sync v0.0.0-20190423024810-112230192c58
@@ -14,7 +13,6 @@ replace (
 
 require (
 	github.com/Microsoft/go-winio v0.4.14 // indirect
-	github.com/Sirupsen/logrus v0.0.0-00010101000000-000000000000 // indirect
 	github.com/coreos/go-systemd v0.0.0-20161114122254-48702e0da86b // indirect
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
 	github.com/docker/docker v1.13.1
