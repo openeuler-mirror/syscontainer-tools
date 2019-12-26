@@ -4,7 +4,7 @@
 #Basic Information
 Name:           isulad-tools
 Version:        v0.9
-Release:        33
+Release:        34
 Summary:        isulad tools for IT, work with iSulad
 License:        Mulan PSL v1
 Source0:        %{name}-src.tar.gz
@@ -13,7 +13,6 @@ BuildRoot:      %{_tmppath}/%{name}-root
 #Dependency
 BuildRequires: glibc-static 
 BuildRequires: golang > 1.6
-BuildRequires:  libsecurec libsecurec-devel
 Requires: iSulad
 Requires: util-linux
 
@@ -108,6 +107,12 @@ chmod 0640 ${HOOK_SPEC}/hookspec.json
 rm -rfv %{buildroot}
 
 %changelog
+* Tue Dec 26 2019 Zhangsong<zhangsong34@huawei.com> - 0.9.34
+- Type:enhancement
+- ID:NA
+- SUG:restart
+- DESC:remove securec functions
+
 * Tue Dec 11 2018 Zhangsong<zhangsong34@huawei.com> - 0.9.9-1
 - Type:enhancement
 - ID:NA
