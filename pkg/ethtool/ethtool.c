@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <securec.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <endian.h>
@@ -35,10 +34,7 @@ int setNetDeviceTSO(int fd, char* name, int on)
     eval.data = on;
     eval.cmd = ETHTOOL_STSO;
 
-    ret = strncpy_s(ifr.ifr_name, sizeof(ifr.ifr_name), name, sizeof(ifr.ifr_name) - 1);
-    if (ret != EOK) {
-        return -1;
-    }
+    strncpy(ifr.ifr_name, name, sizeof(ifr.ifr_name) - 1);
     ifr.ifr_data = (void*)&eval;
     ret = ioctl(fd, SIOCETHTOOL, &ifr);
     if (ret < 0) {
@@ -55,10 +51,7 @@ int setNetDeviceSG(int fd, char* name, int on)
     eval.data = on;
     eval.cmd = ETHTOOL_SSG;
 
-    ret = strncpy_s(ifr.ifr_name, sizeof(ifr.ifr_name), name, sizeof(ifr.ifr_name) - 1);
-    if (ret != EOK) {
-        return -1;
-    }
+    strncpy(ifr.ifr_name, name, sizeof(ifr.ifr_name) - 1);
     ifr.ifr_data = (void*)&eval;
     ret = ioctl(fd, SIOCETHTOOL, &ifr);
     if (ret < 0) {
@@ -75,10 +68,7 @@ int setNetDeviceTX(int fd, char* name, int on)
     eval.data = on;
     eval.cmd = ETHTOOL_STXCSUM;
 
-    ret = strncpy_s(ifr.ifr_name, sizeof(ifr.ifr_name), name, sizeof(ifr.ifr_name) - 1);
-    if (ret != EOK) {
-        return -1;
-    }
+    strncpy(ifr.ifr_name, name, sizeof(ifr.ifr_name) - 1);
     ifr.ifr_data = (void*)&eval;
     ret = ioctl(fd, SIOCETHTOOL, &ifr);
     if (ret < 0) {
