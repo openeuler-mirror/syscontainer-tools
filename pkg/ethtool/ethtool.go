@@ -14,7 +14,6 @@
 package ethtool
 
 /*
-#cgo LDFLAGS: -lsecurec
 #include <stdlib.h>
 #include "ethtool.h"
 */
