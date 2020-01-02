@@ -7,6 +7,7 @@ Version:        v0.9
 Release:        34
 Summary:        isulad tools for IT, work with iSulad
 License:        Mulan PSL v1
+URL:            https://gitee.com/src-openeuler/iSulad-tools
 Source0:        %{name}-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-root
 
