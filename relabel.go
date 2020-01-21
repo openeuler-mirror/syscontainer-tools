@@ -51,7 +51,7 @@ func relabelIsuladBinary(path, bin string) error {
 }
 
 func restartIsulad() error {
-	restart := selinuxCommand{"systemctl", []string{"restart", "lcrd"}}
+	restart := selinuxCommand{"systemctl", []string{"restart", "isulad"}}
 	cmd := exec.Command(restart.cmd, restart.argv...)
 	logrus.Infof("%s %v", restart.cmd, restart.argv)
 	if err := cmd.Run(); err != nil {
@@ -94,7 +94,7 @@ func relabel(path string) error {
 		return nil
 	}
 	modifyContexts := []selinuxContext{
-		{"init_exec_t", path + "/lcrd"},
+		{"init_exec_t", path + "/isulad"},
 	}
 	con := utils.NewContext(attr)
 	for _, context := range modifyContexts {

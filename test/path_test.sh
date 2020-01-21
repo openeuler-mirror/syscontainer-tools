@@ -20,13 +20,13 @@
 TEST_NAME="test_path"
 
 test_001(){
-	out=`lcrc run --name one  --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 100000"`
+	out=`isula run --name one  --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 100000"`
 	container_status $out
 	if [ "${status}x" != "runningx" ]; then
 		 fail $TEST_NAME "01:FAIL"
 	fi
 
-	out1=`lcrc ps | grep one | awk '{print $1}'`
+	out1=`isula ps | grep one | awk '{print $1}'`
 	TEST_FOLDER=$TMP/$TEST_NAME/001
 	if [ -d $TEST_FOLDER ]; then
 		rm -rf $TEST_FOLDER > /dev/null
@@ -41,7 +41,7 @@ test_001(){
 		fail $TEST_NAME "01-1:FAIL"
 	fi
 	
-	out=`lcrc exec one sh -c "cat /tmp/b.txt"`
+	out=`isula exec one sh -c "cat /tmp/b.txt"`
 	if [ "$out" == "hello" ]; then
 		success $TEST_NAME "01-2:PASS"
 	else
@@ -50,7 +50,7 @@ test_001(){
 	
 	#test remove-path
 	$ISULAD_TOOLS remove-path $out1 $TEST_FOLDER:/tmp > /dev/null
-	out=`lcrc exec one sh -c "cd tmp && ls" > /dev/null 2>&1 `
+	out=`isula exec one sh -c "cd tmp && ls" > /dev/null 2>&1 `
 	if [ "$out" == "" ]; then
 		success $TEST_NAME "01-3:PASS"
 	else
@@ -58,12 +58,12 @@ test_001(){
 	fi
 
 	# clean up container.
-	lcrc rm -f one > /dev/null
+	isula rm -f one > /dev/null
 }
 
 test_002(){
 	#test exited container
-	out=`lcrc run --name one  --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE`
+	out=`isula run --name one  --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE`
 	sleep 3
 	container_status $out
 	if [ "${status}x" != "exitedx" ]; then
@@ -77,12 +77,12 @@ test_002(){
 	else
 		fail $TEST_NAME "02-1:Fail"
 	fi
-	lcrc rm one > /dev/null
+	isula rm one > /dev/null
 }
 
 test_003(){
 	#test created container
-	out=`lcrc create --name one  --hook-spec /var/lib/lcrd/hooks/hookspec.json -ti  $UBUNTU_IMAGE`
+	out=`isula create --name one  --hook-spec /var/lib/isulad/hooks/hookspec.json -ti  $UBUNTU_IMAGE`
 	container_status $out
 	if [ "${status}x" != "createdx" ]; then
 		success $TEST_NAME "03:PASS"
@@ -102,11 +102,11 @@ test_003(){
 	echo hello > $TEST_FOLDER/b.txt
 
 	#created->up container
-	out1=`lcrc start one`
+	out1=`isula start one`
 	sleep 1
-	out=`lcrc ps | grep one | awk '{print $1}'`
+	out=`isula ps | grep one | awk '{print $1}'`
 	$ISULAD_TOOLS add-path $out $TEST_FOLDER:/tmp:ro > /dev/null 2>&1
-	out1=`lcrc exec $out sh -c "cat /tmp/b.txt"`
+	out1=`isula exec $out sh -c "cat /tmp/b.txt"`
 	if [ "$out1" == "hello" ]; then
 		success $TEST_NAME "03-2:PASS"
 	else
@@ -114,7 +114,7 @@ test_003(){
 	fi
 
 	#test ro 
-	lcrc exec one sh -c "cd tmp && ls && echo abcddd> b.txt" > /dev/null 2>&1 
+	isula exec one sh -c "cd tmp && ls && echo abcddd> b.txt" > /dev/null 2>&1 
 	out=`echo $?`
 	if [ $out -ne 0 ]; then
 		success $TEST_NAME "03-2:PASS"
@@ -122,20 +122,20 @@ test_003(){
 		fail $TEST_NAME "03-2:FAIL"
 	fi
 
-	out=`lcrc ps | grep one | awk '{print $1}'`
-	lcrc rm -f one > /dev/null
+	out=`isula ps | grep one | awk '{print $1}'`
+	isula rm -f one > /dev/null
 }
 
 test_005(){
 	#test mount a Empty dirct
-	out=`lcrc run --name one --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
+	out=`isula run --name one --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
 	container_status $out
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "05:FAIL"
 	fi
 	mkdir -p /tmp/isulad_test/test
 	$ISULAD_TOOLS add-path $out /tmp/isulad_test/test:/tmp:rw > /dev/null 2>&1
-	out1=`lcrc exec one bash -c "mount | awk 'END{print $1}'"`
+	out1=`isula exec one bash -c "mount | awk 'END{print $1}'"`
 	out1=${out1%on*}
 	out2=${out1##*/}
 	if [ "$out1" == "/dev/$out2" ]; then
@@ -143,28 +143,28 @@ test_005(){
 	else
 		fail $TEST_NAME "05-1:FAIL"
 	fi
-	lcrc rm -f one > /dev/null
+	isula rm -f one > /dev/null
 }
 
 test_006(){
 	#test can not add ro and rw
-	out=`lcrc run --name one --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
+	out=`isula run --name one --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
 	container_status $out
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "06:FAIL"
 	fi
-	out=`lcrc exec $out sh -c "cd tmp && ls && echo cc > b.txt && cat b.txt"`
+	out=`isula exec $out sh -c "cd tmp && ls && echo cc > b.txt && cat b.txt"`
 	if [ "$out" == "cc" ]; then
 		success $TEST_NAME "06-1:PASS"
 	else
 		fail $TEST_NAME "06-1:FAIL"
 	fi
-	lcrc rm -f one > /dev/null
+	isula rm -f one > /dev/null
 }
 
 test_007(){
 	#test remove dirct
-	out=`lcrc run --name one --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
+	out=`isula run --name one --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
 	container_status $out
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "07:FAIL"
@@ -183,14 +183,14 @@ test_007(){
 	if [ $out -ne 0 ]; then
 		fail $TEST_NAME "07-1:FAIL"
 	fi
-	out=`lcrc exec one bash -c "cat /tmp/b.txt"`
+	out=`isula exec one bash -c "cat /tmp/b.txt"`
 	if [ "$out" != "hello" ]; then
 		fail $TEST_NAME "07-2:FAIL"
 	fi
 	
 	# remove the path from container.
 	$ISULAD_TOOLS remove-path one $TEST_FOLDER:/tmp:rw > /dev/null
-	out=`lcrc exec one bash -c "ls -l /tmp"`
+	out=`isula exec one bash -c "ls -l /tmp"`
 	if [ "$out" == "total 0" ]; then
 		success $TEST_NAME "07-3:PASS"
 	else
@@ -198,12 +198,12 @@ test_007(){
 	fi
 
 	# clean up container.
-	lcrc rm -f one > /dev/null
+	isula rm -f one > /dev/null
 }
 
 test_008(){
-	out=`lcrc run --name one  --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 100000"`
-	out2=`lcrc ps | grep one | awk '{print $1}'`
+	out=`isula run --name one  --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 100000"`
+	out2=`isula ps | grep one | awk '{print $1}'`
 	$ISULAD_TOOLS add-path $out2 $out1:/tmp:rw > /dev/null 2>&1
 	out=`echo $?`
 	if [ $out -ne 0 ]; then
@@ -211,7 +211,7 @@ test_008(){
 	else
 		fail $TEST_NAME "08-1:FAIL"
 	fi
-	lcrc rm -f one > /dev/null
+	isula rm -f one > /dev/null
 }
 main(){
 	test_001

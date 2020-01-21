@@ -23,7 +23,7 @@
 
 test_001(){
 	#testcase01
-	CONTAINER_ID=`lcrc run -d $BUSYBOX_IMAGE top`
+	CONTAINER_ID=`isula run -d $BUSYBOX_IMAGE top`
 	$ISULAD_TOOLS --debug --log $TMP/isulad-tools.log add-nic \
 		--type veth --name eth10 --ip 192.168.182.2/24 \
 		--mac "aa:bb:cc:dd:ee:aa" --bridge "docker0" --mtu 1350 \
@@ -34,7 +34,7 @@ test_001(){
 		success $TEST_NAME "01-1:PASS"
 	fi
 
-	out=`lcrc exec $CONTAINER_ID ip a s eth10`
+	out=`isula exec $CONTAINER_ID ip a s eth10`
 	if [ $? -ne 0 ]; then
 		fail $TEST_NAME "01-2:FAIL"
 	else
@@ -69,7 +69,7 @@ test_001(){
 	else
 		success $TEST_NAME "01-6:PASS"
 	fi
-	lcrc rm -f $CONTAINER_ID > /dev/null 2>&1
+	isula rm -f $CONTAINER_ID > /dev/null 2>&1
 }
 
 test_002(){
@@ -82,7 +82,7 @@ test_002(){
 	if [ $? -ne 0 ]; then
 		fail "02-1:FAIL"
 	fi
-	CONTAINER_ID=`lcrc run -d $BUSYBOX_IMAGE top`
+	CONTAINER_ID=`isula run -d $BUSYBOX_IMAGE top`
 	$ISULAD_TOOLS --debug --log $TMP/isulad-tools.log add-nic \
 		--type veth --name eth11 --ip 192.168.182.2/24 \
 		--mac "aa:bb:cc:dd:ee:aa" --bridge $OVS_BR --mtu 1350 \
@@ -93,7 +93,7 @@ test_002(){
 		success $TEST_NAME "02-1:PASS"
 	fi
 
-	out=`lcrc exec $CONTAINER_ID ip a s eth11`
+	out=`isula exec $CONTAINER_ID ip a s eth11`
 	if [ $? -ne 0 ]; then
 		fail $TEST_NAME "02-2:FAIL"
 	else
@@ -108,7 +108,7 @@ test_002(){
 	else
 		success $TEST_NAME "02-3:PASS"
 	fi
-	lcrc rm -f $CONTAINER_ID > /dev/null 2>&1
+	isula rm -f $CONTAINER_ID > /dev/null 2>&1
 	ovs-vsctl --if-exists del-br $OVS_BR
 }
 

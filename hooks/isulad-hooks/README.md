@@ -50,13 +50,13 @@ Full hook config:
 
 ## Try it!
 
-First you need an enhanced `lcrc` with newly added `--hook-spec` flag,
+First you need an enhanced `isula` with newly added `--hook-spec` flag,
 after that, you can run it like this:
 
 1.run isulad container with hook spec in `example` directory
 
 ```
-$ lcrc run -d --name test_device --hook-spec $PWD/example/hookspec.json busybox sleep 20000
+$ isula run -d --name test_device --hook-spec $PWD/example/hookspec.json busybox sleep 20000
 ```
 2.use isulad-tools to add device or binds to container
 
@@ -67,7 +67,7 @@ isulad-tools add-device test_device /dev/zero:/dev/test_zero:rwm /dev/zero:/dev/
 3.restart the container. to check the device is still in container.
 
 ```
-lcrc restart test_device
+isula restart test_device
 ```
 
 Let's check the [`hookspec.json`](example/hookspec.json) file:
@@ -76,7 +76,7 @@ Let's check the [`hookspec.json`](example/hookspec.json) file:
 {
         "prestart": [
             {
-                "path": "/var/lib/lcrd/hooks/device-hook",
+                "path": "/var/lib/isulad/hooks/device-hook",
                 "args": ["device-hook"],
                 "env": []
             }

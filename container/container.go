@@ -55,23 +55,23 @@ func New(name string) (*Container, error) {
 		return nil, fmt.Errorf("Invalid container name (%s), only %s are allowed", name, restrictedNameChars)
 	}
 
-	graphDriverPath, err := getLcrdGraphDriverPath()
+	graphDriverPath, err := getIsuladGraphDriverPath()
 
 	var id, storagePath string
 	var pid int
 	var spec *specs.Spec
 	storagePath = filepath.Join(graphDriverPath, "engines", "lcr")
-	id, err = getLcrdContainerID(name)
+	id, err = getIsuladContainerID(name)
 	if err != nil {
 		return nil, err
 	}
-	pid, err = getLcrdContainerPid(name)
+	pid, err = getIsuladContainerPid(name)
 	if err != nil {
 		return nil, err
 	}
-	spec, err = getLcrdContainerSpec(id)
+	spec, err = getIsuladContainerSpec(id)
 	if err != nil {
-		logrus.Warnf("fail to get lcrd container %v spec: %v", id, err)
+		logrus.Warnf("fail to get isulad container %v spec: %v", id, err)
 	}
 
 	container := &Container{
@@ -141,12 +141,15 @@ func (c *Container) Unlock() error {
 // GetCgroupPath returns the cgroup-parent segment of the container.
 // For isulad container, it is a configurable segment.
 func (c *Container) GetCgroupPath() (string, error) {
-	cmd := exec.Command("lcrc", "inspect", "-f", "{{json .HostConfig.CgroupParent}}", c.name)
+	cmd := exec.Command("isula", "inspect", "-f", "{{json .HostConfig.CgroupParent}}", c.name)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", fmt.Errorf("%s: %v", string(out), err)
 	}
 	cgroupPath := strings.Trim(string(out), "\n")
+    if len(cgroupPath) >= 2 {
+        cgroupPath = cgroupPath[1 : len(cgroupPath)-1]
+    }
 	if cgroupPath == "" {
 		// by default, the cgroup path is "/lxc/<id>"
 		cgroupPath = "/lxc"
@@ -161,9 +164,9 @@ func (c *Container) GetSpec() *specs.Spec {
 	return c.spec
 }
 
-// getLcrdContainerID returns the lcrd container ID via the container name
-func getLcrdContainerID(name string) (string, error) {
-	cmd := exec.Command("lcrc", "inspect", "-f", "{{json .Id}}", name)
+// getIsuladContainerID returns the isulad container ID via the container name
+func getIsuladContainerID(name string) (string, error) {
+	cmd := exec.Command("isula", "inspect", "-f", "{{json .Id}}", name)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", fmt.Errorf("%s: %v", string(out), err)
@@ -171,9 +174,9 @@ func getLcrdContainerID(name string) (string, error) {
 	return strings.Trim(strings.Trim(string(out), "\n"), "\""), nil
 }
 
-// getLcrdContainerPid returns the lcrd container process id via the container name
-func getLcrdContainerPid(name string) (int, error) {
-	cmd := exec.Command("lcrc", "inspect", "-f", "{{json .State.Pid}}", name)
+// getIsuladContainerPid returns the isulad container process id via the container name
+func getIsuladContainerPid(name string) (int, error) {
+	cmd := exec.Command("isula", "inspect", "-f", "{{json .State.Pid}}", name)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return -1, fmt.Errorf("%s: %v", string(out), err)
@@ -186,8 +189,8 @@ func getLcrdContainerPid(name string) (int, error) {
 	return pid, nil
 }
 
-func getLcrdContainerSpec(id string) (spec *specs.Spec, err error) {
-	graphDriverPath, err := getLcrdGraphDriverPath()
+func getIsuladContainerSpec(id string) (spec *specs.Spec, err error) {
+	graphDriverPath, err := getIsuladGraphDriverPath()
 	if err != nil {
 		return nil, err
 	}
@@ -210,11 +213,11 @@ func getLcrdContainerSpec(id string) (spec *specs.Spec, err error) {
 	return spec, nil
 }
 
-func getLcrdGraphDriverPath() (string, error) {
-	cmd := exec.Command("lcrc", "info")
+func getIsuladGraphDriverPath() (string, error) {
+	cmd := exec.Command("isula", "info")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		return "", fmt.Errorf("Exec lcrc info failed: %v", err)
+		return "", fmt.Errorf("Exec isula info failed: %v", err)
 	}
 	// Find "iSulad Root Dir: /xx/xx" line. and out is still has the rest characters.
 	if index := strings.Index(string(out), "iSulad Root Dir:"); index != -1 {
@@ -228,7 +231,7 @@ func getLcrdGraphDriverPath() (string, error) {
 			return rootdir, nil
 		}
 	}
-	return "", fmt.Errorf("Faild to parse lcrc info, no \"iSulad Root Dir:\" found")
+	return "", fmt.Errorf("Faild to parse isula info, no \"iSulad Root Dir:\" found")
 }
 
 // SetContainerPath set container path

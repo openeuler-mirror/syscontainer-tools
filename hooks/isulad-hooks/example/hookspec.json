@@ -1,21 +1,21 @@
 {
         "prestart": [
         {
-                "path": "/var/lib/lcrd/hooks/isulad-hooks",
+                "path": "/var/lib/isulad/hooks/isulad-hooks",
                 "args": ["isulad-hooks", "--state", "prestart", "--log", "/var/log/device-hook.log"],
                 "env": []
         }
         ],
         "poststart":[
         {
-                "path": "/var/lib/lcrd/hooks/isulad-hooks",
+                "path": "/var/lib/isulad/hooks/isulad-hooks",
                 "args": ["isulad-hooks", "--state", "prestart", "--log", "/var/log/device-hook.log"],
                 "env": []
         }
 	],
         "poststop":[
         {
-                "path": "/var/lib/lcrd/hooks/isulad-hooks",
+                "path": "/var/lib/isulad/hooks/isulad-hooks",
                 "args": ["isulad-hooks", "--state", "poststop", "--log", "/var/log/device-hook.log"],
                 "env": []
         }
