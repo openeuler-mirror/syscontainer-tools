@@ -25,7 +25,7 @@ import (
 	"github.com/opencontainers/runtime-spec/specs-go"
 )
 
-// lcrc info may result in dead lock when start with restart policy
+// isula info may result in dead lock when start with restart policy
 // try to get isulad root path with hook path
 func getGraphDriverPath() (string, error) {
 	path, err := os.Executable()
@@ -33,7 +33,7 @@ func getGraphDriverPath() (string, error) {
 		return "", err
 	}
 
-	// get /var/lib/lcrd from /var/lib/lcrd/hooks/isulad-hooks
+	// get /var/lib/isulad from /var/lib/isulad/hooks/isulad-hooks
 	dir := filepath.Dir(filepath.Dir(path))
 	return dir, nil
 }

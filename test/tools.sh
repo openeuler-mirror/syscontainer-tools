@@ -15,7 +15,7 @@
 
 container_status(){
         id=$1
-        status=`lcrc inspect ${id:00:12} | grep Status | awk -F ":" '{print $2}'`
+        status=`isula inspect ${id:00:12} | grep Status | awk -F ":" '{print $2}'`
         status=${status#*\"}
         status=${status%%\"*}
 }

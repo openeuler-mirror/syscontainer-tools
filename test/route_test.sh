@@ -23,12 +23,12 @@ test_001(){
 	ip link set $BR up
 	ip a a 192.168.182.1/24 dev $BR
 	
-	CONTAINER_ID=`lcrc run -d --net none $BUSYBOX_IMAGE top`
+	CONTAINER_ID=`isula run -d --net none $BUSYBOX_IMAGE top`
 	$ISULAD_TOOLS --debug --log $TMP/isulad-tools.log add-nic \
 		--type veth --name eth0 --ip 192.168.182.2/24 \
 		--mac "aa:bb:cc:dd:ee:aa" --bridge $BR --mtu 1450 \
 		$CONTAINER_ID
-	lcrc exec --privileged $CONTAINER_ID ip route delete 192.168.182.0/24
+	isula exec --privileged $CONTAINER_ID ip route delete 192.168.182.0/24
 	$ISULAD_TOOLS add-route $CONTAINER_ID '[{"dest":"192.168.182.0/24", "src":"192.168.182.2","dev":"eth0"}]'
 	if [ $? -ne 0 ]; then
 		fail $TEST_NAME "01-1:FAIL"
@@ -44,14 +44,14 @@ test_001(){
 	#	success $TEST_NAME "01-1:PASS"
 	#fi
 
-	rules=`lcrc exec $CONTAINER_ID ip route`
+	rules=`isula exec $CONTAINER_ID ip route`
 	echo $rules | grep "192.168.182.0/24 dev eth0 src 192.168.182.2" > /dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		fail $TEST_NAME "01-2:FAIL"
 	else
 		success $TEST_NAME "01-2:PASS"
 	fi
-	lcrc rm -f $CONTAINER_ID > /dev/null 2>&1
+	isula rm -f $CONTAINER_ID > /dev/null 2>&1
 	brctl delbr $BR > /dev/null 2>&1
 }
 

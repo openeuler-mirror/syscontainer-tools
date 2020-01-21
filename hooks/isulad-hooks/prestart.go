@@ -347,7 +347,7 @@ func AdjustUserns(state *configs.HookState, hookConfig *hconfig.ContainerHookCon
 	if err != nil {
 		return err
 	}
-	if strings.Contains(containerStoragePath, "lcrd") {
+	if strings.Contains(containerStoragePath, "isulad") {
 		return nil
 	}
 

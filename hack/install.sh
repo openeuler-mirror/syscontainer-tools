@@ -13,7 +13,7 @@
 
 #!/bin/bash
 
-HOOK_DIR=/var/lib/lcrd/hooks
+HOOK_DIR=/var/lib/isulad/hooks
 ISULAD_TOOLS_DIR=/usr/local/bin
 ISULAD_TOOLS_WRAPPER="/lib/udev"
 HOOK_SPEC="/etc/isulad-tools"

@@ -24,7 +24,7 @@
 ### general
 
 * reorginzed the isulad-tools code  (MR: #75)
-* use`isulad-tools` in `isulad-tools_wrapper` instead of `lcrc exec` (MR: #76)
+* use`isulad-tools` in `isulad-tools_wrapper` instead of `isula exec` (MR: #76)
 * fix filelock can't lock accross the process issue (MR: #78)
 
 ### hooks
@@ -99,7 +99,7 @@
 
 ### isulad-tools
 
-* use device-hook instead of "lcrc update" to keep resource persistent in container.
+* use device-hook instead of "isula update" to keep resource persistent in container.
 * add syslog support, all log will be written to syslog.
 * add "make rpm" support in Makefile.
 

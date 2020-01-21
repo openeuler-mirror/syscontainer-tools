@@ -29,10 +29,10 @@ setupImage(){
 	declare -a Images=($UBUNTU_IMAGE $BUSYBOX_IMAGE)
 	for img in "${Images[@]}";
 	do
-		out=`lcrc images | grep $img`
+		out=`isula images | grep $img`
 		if [ "x$out" = "x" ]; then
 			echo "Image [" $img "] does not exist, pull it from hub."
-			lcrc pull $img
+			isula pull $img
 		fi
 	done
 
@@ -40,9 +40,9 @@ setupImage(){
 
 
 setup_device_hook(){
-	mkdir -p /var/lib/lcrd/hooks
-	cp $CUR/../hooks/isulad-hooks/example/hookspec.json /var/lib/lcrd/hooks/
-	cp $CUR/../build/isulad-hooks /var/lib/lcrd/hooks/
+	mkdir -p /var/lib/isulad/hooks
+	cp $CUR/../hooks/isulad-hooks/example/hookspec.json /var/lib/isulad/hooks/
+	cp $CUR/../build/isulad-hooks /var/lib/isulad/hooks/
 }
 
 main_test(){

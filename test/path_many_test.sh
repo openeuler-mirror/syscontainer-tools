@@ -20,13 +20,13 @@
 TEST_NAME="test_path_many"
 
 test_001(){
-	container_ID=`lcrc run --name one --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
+	container_ID=`isula run --name one --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 10000"`
 	container_status $container_ID
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "01:FAIL"
 	fi
 	
-	container_ID=`lcrc ps | grep one | awk '{print $1}'`
+	container_ID=`isula ps | grep one | awk '{print $1}'`
 
 	TEST_FOLDER1=$TMP/$TEST_NAME/001/test1
 	TEST_FOLDER2=$TMP/$TEST_NAME/001/test2
@@ -44,14 +44,14 @@ test_001(){
 	else
 		success $TEST_NAME "01-1:PASS"
 	fi
-	out=`lcrc exec one bash -c "cat /tmp/c.txt"`
+	out=`isula exec one bash -c "cat /tmp/c.txt"`
 	if [ "$out" == "cc" ]; then
 		success $TEST_NAME "01-2:PASS"
 	else
 		fail $TEST_NAME "01-2:FAIL"
 	fi
 	
-	out=`lcrc exec one bash -c "cat /home/b.txt"`
+	out=`isula exec one bash -c "cat /home/b.txt"`
 	if [ "$out" == "hello" ]; then
 		success $TEST_NAME "01-3:PASS"
 	else
@@ -60,7 +60,7 @@ test_001(){
 
 	#test remove-path
 	$ISULAD_TOOLS remove-path $container_ID $TEST_FOLDER2:/tmp:rw $TEST_FOLDER1:/home:rw > /dev/null
-	out=`lcrc exec one bash -c "ls /tmp && ls /home"`
+	out=`isula exec one bash -c "ls /tmp && ls /home"`
 	if [ "$out" == "" ]; then
 		success $TEST_NAME "01-4:PASS"
 	else
@@ -74,24 +74,24 @@ test_001(){
 	else
 		success $TEST_NAME "01-6:PASS"
 	fi
-	out=`lcrc exec $container_ID bash -c "ls /tmp"`
+	out=`isula exec $container_ID bash -c "ls /tmp"`
 	if [ "$out" == "b.txt" ]; then
 		success $TEST_NAME "01-7:PASS"
 	else
 		fail $TEST_NAME "01-7:FAIL"
 	fi
 	
-	lcrc rm -f one > /dev/null
+	isula rm -f one > /dev/null
 }
 
 test_002(){
 	#test Multiple container mount the same direct  
-	container_ID1=`lcrc run --name one1 --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 1000"`
+	container_ID1=`isula run --name one1 --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 1000"`
 	container_status $container_ID1
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "02:FAIL"
 	fi
-	container_ID2=`lcrc run --name two --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 1000"`
+	container_ID2=`isula run --name two --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 1000"`
 	container_status $container_ID2
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "021:FAIL"
@@ -101,7 +101,7 @@ test_002(){
 	echo hello > $TEST_FOLDER1/b.txt
 
 	$ISULAD_TOOLS add-path $container_ID1 $TEST_FOLDER1:/tmp:rw > /dev/null
-	out=`lcrc exec one1 sh -c "ls /tmp"`
+	out=`isula exec one1 sh -c "ls /tmp"`
 	if [ "$out" != "b.txt" ]; then
 		fail $TEST_NAME "02-1:FAIL"
 	else
@@ -109,7 +109,7 @@ test_002(){
 	fi
 
 	$ISULAD_TOOLS add-path $container_ID2 $TEST_FOLDER1:/tmp:rw > /dev/null
-	out1=`lcrc exec two sh -c "cd tmp && ls"`
+	out1=`isula exec two sh -c "cd tmp && ls"`
 	if [ "$out1" != "b.txt" ]; then
 		fail $TEST_NAME "02-2:FAIL"
 	else
@@ -123,7 +123,7 @@ test_002(){
 		success $TEST_NAME "02-3:PASS"
 	fi
 
-	out1=`lcrc exec two sh -c "cd tmp && ls"`
+	out1=`isula exec two sh -c "cd tmp && ls"`
 	if [ "$out1" == "b.txt" ]; then
 		success $TEST_NAME "02-4:PASS"
 	else
@@ -131,29 +131,29 @@ test_002(){
 	fi
 
 	#test stop start 
-	lcrc stop two > /dev/null
+	isula stop two > /dev/null
 	container_status $container_ID2
 	if [ "${status}x" != "exitedx" ]; then
 		fail $TEST_NAME "02-5:FAIL"
 	fi
-	lcrc start two > /dev/null
+	isula start two > /dev/null
 	container_status $container_ID2
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "02-6:FAIL"
 	fi
-	out1=`lcrc exec two sh -c "cd tmp && ls"`
+	out1=`isula exec two sh -c "cd tmp && ls"`
 	if [ "$out1" == "b.txt" ]; then
 		success $TEST_NAME "02-7:PASS"
 	else
 		fail $TEST_NAME "02-7:FAIL"
 	fi 
-	lcrc rm -f one1 > /dev/null
-	lcrc rm -f two > /dev/null
+	isula rm -f one1 > /dev/null
+	isula rm -f two > /dev/null
 }
 
 test_003(){
 	#test one direct is ro ,the other is direct is rw
-	out=`lcrc run --name one --hook-spec /var/lib/lcrd/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 1000"`
+	out=`isula run --name one --hook-spec /var/lib/isulad/hooks/hookspec.json -d $UBUNTU_IMAGE bash -c "sleep 1000"`
 	container_status $out
 	if [ "${status}x" != "runningx" ]; then
 		fail $TEST_NAME "03:FAIL"
@@ -169,26 +169,26 @@ test_003(){
 	echo cc > $TEST_FOLDER2/c.txt 
 
 	$ISULAD_TOOLS add-path $out $TEST_FOLDER1:/tmp:rw $TEST_FOLDER2:/home:ro > /dev/null 2>&1
-	out1=`lcrc exec one bash -c "cat /tmp/b.txt"`
+	out1=`isula exec one bash -c "cat /tmp/b.txt"`
 	if [ "$out1" != "hello" ]; then
 		fail $TEST_NAME "03-1:FAIL"
 	fi 
-	out1=`lcrc exec one bash -c "cat /home/c.txt"`
+	out1=`isula exec one bash -c "cat /home/c.txt"`
 	if [ "$out1" != "cc" ]; then
 		fail $TEST_NAME "03-2:FAIL"
 	fi
 	
-	lcrc exec one bash -c "cd /home && echo hello>c.txt" > /dev/null 2>&1
+	isula exec one bash -c "cd /home && echo hello>c.txt" > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		fail $TEST_NAME "03-3:FAIL"
 	fi
-	out=`lcrc exec one bash -c "cd /home && cat c.txt"`
+	out=`isula exec one bash -c "cd /home && cat c.txt"`
 	if [ "$out" == "cc" ]; then
 		success $TEST_NAME "03-4:PASS"
 	else
 		fail $TEST_NAME "03-4:FAIL"
 	fi
-	lcrc rm -f one > /dev/null
+	isula rm -f one > /dev/null
 }
 
 main(){

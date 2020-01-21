@@ -28,7 +28,7 @@ This is isulad tools, to make it work, you need a isulad and util-linux
 make init && make
 
 %install
-HOOK_DIR=$RPM_BUILD_ROOT/var/lib/lcrd/hooks
+HOOK_DIR=$RPM_BUILD_ROOT/var/lib/isulad/hooks
 ISULAD_TOOLS_DIR=$RPM_BUILD_ROOT/usr/local/bin
 ISULAD_TOOLS_WRAPPER=$RPM_BUILD_ROOT/lib/udev
 
@@ -46,18 +46,18 @@ install -m 0750 hack/isulad-tools_wrapper  ${ISULAD_TOOLS_WRAPPER}/isulad-tools_
 %preun
 
 %post
-GRAPH=`lcrc info | grep -Eo "iSulad Root Dir:.+" | grep -Eo "\/.*"` 
+GRAPH=`isula info | grep -Eo "iSulad Root Dir:.+" | grep -Eo "\/.*"` 
 if [ "$GRAPH" == "" ]; then
-    GRAPH="/var/lib/lcrd"
+    GRAPH="/var/lib/isulad"
 fi
 
-if [[ "$GRAPH" != "/var/lib/lcrd" ]]; then
+if [[ "$GRAPH" != "/var/lib/isulad" ]]; then
     mkdir -p -m 0550 $GRAPH/hooks
-    install -m 0550 -p /var/lib/lcrd/hooks/isulad-hooks $GRAPH/hooks
+    install -m 0550 -p /var/lib/isulad/hooks/isulad-hooks $GRAPH/hooks
 
     echo
     echo "=================== WARNING! ================================================"
-    echo " 'iSulad Root Dir' is $GRAPH, move /var/lib/lcrd/hooks/isulad-hooks to  $GRAPH/hooks"
+    echo " 'iSulad Root Dir' is $GRAPH, move /var/lib/isulad/hooks/isulad-hooks to  $GRAPH/hooks"
     echo "============================================================================="
     echo
 fi
@@ -98,8 +98,8 @@ chmod 0640 ${HOOK_SPEC}/hookspec.json
 %files
 %defattr(0550,root,root,0550)
 /usr/local/bin/isulad-tools
-%attr(0550,root,root) /var/lib/lcrd/hooks
-%attr(0550,root,root) /var/lib/lcrd/hooks/isulad-hooks
+%attr(0550,root,root) /var/lib/isulad/hooks
+%attr(0550,root,root) /var/lib/isulad/hooks/isulad-hooks
 %attr(0550,root,root) /lib/udev/isulad-tools_wrapper
 
 
