@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -19,7 +19,7 @@ import (
 	"os"
 	"strings"
 
-	"isula.org/isulad-tools/types"
+	"isula.org/syscontainer-tools/types"
 )
 
 // HostMapping host path mapping to container path
@@ -209,7 +209,7 @@ func (config *ContainerHookConfig) addBind(bind *types.Bind) (bool, error) {
 
 }
 func (config *ContainerHookConfig) removeBind(bind *types.Bind) (bool, error) {
-	// if in add array, remove it, will not restore to Rm array, as it is added by isulad-tools.
+	// if in add array, remove it, will not restore to Rm array, as it is added by syscontainer-tools.
 	if index := config.bindIndexInArray(bind, config.Binds); index != -1 {
 		config.dirty = true
 		config.Binds = append(config.Binds[:index], config.Binds[index+1:]...)

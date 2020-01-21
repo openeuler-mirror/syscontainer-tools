@@ -1,5 +1,5 @@
 # Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-# isulad-tools is licensed under the Mulan PSL v1.
+# syscontainer-tools is licensed under the Mulan PSL v1.
 # You can use this software according to the terms and conditions of the Mulan PSL v1.
 # You may obtain a copy of Mulan PSL v1 at:
 #    http://license.coscl.org.cn/MulanPSL
@@ -16,10 +16,10 @@
 HOOK_DIR=/var/lib/isulad/hooks
 ISULAD_TOOLS_DIR=/usr/local/bin
 ISULAD_TOOLS_WRAPPER="/lib/udev"
-HOOK_SPEC="/etc/isulad-tools"
+HOOK_SPEC="/etc/syscontainer-tools"
 
 echo "Hooks will be installed to $HOOK_DIR"
-echo "isulad_tools will be installed to $ISULAD_TOOLS_DIR"
+echo "syscontainer_tools will be installed to $ISULAD_TOOLS_DIR"
 
 mkdir -p -m 0700 ${HOOK_DIR}
 mkdir -p -m 0750 ${ISULAD_TOOLS_DIR}
@@ -27,29 +27,29 @@ mkdir -p -m 0750 ${ISULAD_TOOLS_WRAPPER}
 mkdir -p -m 0750 ${HOOK_SPEC}
 
 install -m 0755 -p ../build/*-hooks ${HOOK_DIR}
-install -m 0755 -p ../build/isulad-tools ${ISULAD_TOOLS_DIR}
-install -m 0750 isulad-tools_wrapper  ${ISULAD_TOOLS_WRAPPER}/isulad-tools_wrapper
+install -m 0755 -p ../build/syscontainer-tools ${ISULAD_TOOLS_DIR}
+install -m 0750 syscontainer-tools_wrapper  ${ISULAD_TOOLS_WRAPPER}/syscontainer-tools_wrapper
 
 cat << EOF > ${HOOK_SPEC}/hookspec.json
 {
         "prestart": [
         {
-                "path": "${HOOK_DIR}/isulad-hooks",
-                "args": ["isulad-hooks", "--state", "prestart"],
+                "path": "${HOOK_DIR}/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "prestart"],
                 "env": []
         }
         ],
         "poststart":[
         {
-                "path": "${HOOK_DIR}/isulad-hooks",
-                "args": ["isulad-hooks", "--state", "poststart"],
+                "path": "${HOOK_DIR}/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "poststart"],
                 "env": []
         }
 	],
         "poststop":[
         {
-                "path": "${HOOK_DIR}/isulad-hooks",
-                "args": ["isulad-hooks", "--state", "poststop"],
+                "path": "${HOOK_DIR}/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "poststop"],
                 "env": []
         }
 	]

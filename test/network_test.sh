@@ -1,5 +1,5 @@
 # Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-# isulad-tools is licensed under the Mulan PSL v1.
+# syscontainer-tools is licensed under the Mulan PSL v1.
 # You can use this software according to the terms and conditions of the Mulan PSL v1.
 # You may obtain a copy of Mulan PSL v1 at:
 #    http://license.coscl.org.cn/MulanPSL
@@ -24,7 +24,7 @@
 test_001(){
 	#testcase01
 	CONTAINER_ID=`isula run -d $BUSYBOX_IMAGE top`
-	$ISULAD_TOOLS --debug --log $TMP/isulad-tools.log add-nic \
+	$ISULAD_TOOLS --debug --log $TMP/syscontainer-tools.log add-nic \
 		--type veth --name eth10 --ip 192.168.182.2/24 \
 		--mac "aa:bb:cc:dd:ee:aa" --bridge "docker0" --mtu 1350 \
 		$CONTAINER_ID
@@ -83,7 +83,7 @@ test_002(){
 		fail "02-1:FAIL"
 	fi
 	CONTAINER_ID=`isula run -d $BUSYBOX_IMAGE top`
-	$ISULAD_TOOLS --debug --log $TMP/isulad-tools.log add-nic \
+	$ISULAD_TOOLS --debug --log $TMP/syscontainer-tools.log add-nic \
 		--type veth --name eth11 --ip 192.168.182.2/24 \
 		--mac "aa:bb:cc:dd:ee:aa" --bridge $OVS_BR --mtu 1350 \
 		$CONTAINER_ID

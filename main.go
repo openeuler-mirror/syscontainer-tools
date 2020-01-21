@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -22,8 +22,8 @@ import (
 	"syscall"
 
 	"github.com/docker/docker/pkg/reexec"
-	"isula.org/isulad-tools/config"
-	"isula.org/isulad-tools/utils"
+	"isula.org/syscontainer-tools/config"
+	"isula.org/syscontainer-tools/utils"
 
 	_ "github.com/opencontainers/runc/libcontainer/nsenter"
 	"github.com/sirupsen/logrus"
@@ -55,7 +55,7 @@ func fatalf(t string, v ...interface{}) {
 
 func mainWork() {
 	app := cli.NewApp()
-	app.Name = "isulad-tools"
+	app.Name = "syscontainer-tools"
 	app.Usage = usage
 	v := []string{
 		version,
@@ -111,7 +111,7 @@ func mainWork() {
 
 	app.Before = func(context *cli.Context) error {
 		if err := os.MkdirAll(config.IsuladToolsDir, 0666); err != nil {
-			logrus.Errorf("failed to set isulad-tools dir: %v", err)
+			logrus.Errorf("failed to set syscontainer-tools dir: %v", err)
 		}
 
 		if logpath := context.GlobalString("log"); logpath != "" {
@@ -155,10 +155,10 @@ func mainWork() {
 }
 func main() {
 	if reexec.Init() {
-		// `reexec routine` was registered in isulad-tools/libdevice
+		// `reexec routine` was registered in syscontainer-tools/libdevice
 		// Sub nsenter process will come here.
 		// Isulad reexec package do not handle errors.
-		// And sub isulad-tools nsenter init process will send back the error message to parenet through pipe.
+		// And sub syscontainer-tools nsenter init process will send back the error message to parenet through pipe.
 		// So here do not need to handle errors.
 		return
 	}

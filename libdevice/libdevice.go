@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -22,12 +22,12 @@ import (
 
 	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/sirupsen/logrus"
-	hconfig "isula.org/isulad-tools/config"
-	"isula.org/isulad-tools/container"
-	"isula.org/isulad-tools/libdevice/nsexec"
-	"isula.org/isulad-tools/pkg/udevd"
-	"isula.org/isulad-tools/types"
-	"isula.org/isulad-tools/utils"
+	hconfig "isula.org/syscontainer-tools/config"
+	"isula.org/syscontainer-tools/container"
+	"isula.org/syscontainer-tools/libdevice/nsexec"
+	"isula.org/syscontainer-tools/pkg/udevd"
+	"isula.org/syscontainer-tools/types"
+	"isula.org/syscontainer-tools/utils"
 )
 
 func checkDevice(config hconfig.ContainerConfig, devs []*types.Device, opts *types.AddDeviceOptions) error {
@@ -279,7 +279,7 @@ func RemoveDevice(c *container.Container, devices []*types.Device, followPartiti
 	for _, device := range devices {
 		newDevice := config.FindDeviceByMapping(device)
 		if newDevice == nil {
-			errinfo := fmt.Sprint("Device pair(", device.PathOnHost, ":", device.Path, ") is not added by isulad-tools, can not remove it, please check input parameter.")
+			errinfo := fmt.Sprint("Device pair(", device.PathOnHost, ":", device.Path, ") is not added by syscontainer-tools, can not remove it, please check input parameter.")
 			retErr = append(retErr, errors.New(errinfo))
 			continue
 		}
@@ -288,7 +288,7 @@ func RemoveDevice(c *container.Container, devices []*types.Device, followPartiti
 		if followPartition {
 			subDevices := config.FindSubPartition(newDevice)
 			for _, subDev := range subDevices {
-				// check the sub partition is added by isulad-tools
+				// check the sub partition is added by syscontainer-tools
 				if found := config.FindDeviceByMapping(subDev); found == nil {
 					continue
 				}
@@ -474,7 +474,7 @@ func RemovePath(c *container.Container, binds []*types.Bind) error {
 		}
 
 		if mp == nil {
-			errinfo := fmt.Sprint("Path pair(", bind.HostPath, ":", bind.ContainerPath, ") is not added by isulad-tools, can not remove it, please check input parameter")
+			errinfo := fmt.Sprint("Path pair(", bind.HostPath, ":", bind.ContainerPath, ") is not added by syscontainer-tools, can not remove it, please check input parameter")
 			retErr = append(retErr, errors.New(errinfo))
 			continue
 		}

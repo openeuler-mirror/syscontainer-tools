@@ -12,7 +12,7 @@
 ### general
 
 * change Mtu range (MR: #80)
-* remove 'add-path/remove-path' commands from isulad-tools (MR: #82)
+* remove 'add-path/remove-path' commands from syscontainer-tools (MR: #82)
 * network: config net device 'tx/sg/tso' on (MR: #81)
 * fix some minor issue(security check, file mode...) (MR: #84)
 * fix when supply empty mac address, `add-nic` will panic (MR: #85)
@@ -23,22 +23,22 @@
 
 ### general
 
-* reorginzed the isulad-tools code  (MR: #75)
-* use`isulad-tools` in `isulad-tools_wrapper` instead of `isula exec` (MR: #76)
+* reorginzed the syscontainer-tools code  (MR: #75)
+* use`syscontainer-tools` in `syscontainer-tools_wrapper` instead of `isula exec` (MR: #76)
 * fix filelock can't lock accross the process issue (MR: #78)
 
 ### hooks
 
-* combine 3 hooks binary to `isulad-hooks` (MR: #75)
+* combine 3 hooks binary to `syscontainer-hooks` (MR: #75)
 
 ## v0.6 (2017-6-23)
 
 ### general
 
-* isulad-tools add `add-route & del-nic & del-route` command line. (MR: #71, #68)
-* isulad-tools add-nic supports network interface config. (MR: #68)
-* isulad-tools supports fidsk in container. (MR: #70)
-* isulad-tools could only remove the devices added by isulad-tools (MR: #66)
+* syscontainer-tools add `add-route & del-nic & del-route` command line. (MR: #71, #68)
+* syscontainer-tools add-nic supports network interface config. (MR: #68)
+* syscontainer-tools supports fidsk in container. (MR: #70)
+* syscontainer-tools could only remove the devices added by syscontainer-tools (MR: #66)
 
 ### network-hook
 
@@ -51,11 +51,11 @@
 * fix some dir permissions for potential security risk. (MR: #56, #57, #62)
 * move empty_systemd.sh to iSulad project. (MR: #60)
 
-### isulad-tools
+### syscontainer-tools
 
-* fix isulad-tools subcommand display orders. (MR: #55)
-* when iSulad daemon and isulad-tools are not in the same cgroup path, device-hook will fail to update cgroup permissions. (MR: #58)
-* when containers specify cgroup folder (with `--cgroup-parent` flag), isulad-tools will fail to update device cgroup permissions. (MR: #64)
+* fix syscontainer-tools subcommand display orders. (MR: #55)
+* when iSulad daemon and syscontainer-tools are not in the same cgroup path, device-hook will fail to update cgroup permissions. (MR: #58)
+* when containers specify cgroup folder (with `--cgroup-parent` flag), syscontainer-tools will fail to update device cgroup permissions. (MR: #64)
 
 ### oci-relabel-hook
 
@@ -67,9 +67,9 @@
 
 * fix some golang security problems based on review comments
 
-### isulad-tools
+### syscontainer-tools
 
-* Fix find cgroup path issue when isulad-tools run in container
+* Fix find cgroup path issue when syscontainer-tools run in container
 * Add upstart support for system container
 
 ## v0.3 (2017-1-9)
@@ -84,9 +84,9 @@
 * device-hook: Update cgroup permission in prestart hook not poststart
 * oci-relabel-hook: Use golang to refact oci-relabel-hook
 
-### isulad-tools
+### syscontainer-tools
 
-* Add "--force" flag for `isulad-tools add-device`
+* Add "--force" flag for `syscontainer-tools add-device`
 
 * can not use fdisk to partition when add a device to a container
 
@@ -97,7 +97,7 @@
 * device-hook: newly introduced device hook to save config for new added devices.
 * oci-relabel-hook: use container's SELinux policy to adapt various images.
 
-### isulad-tools
+### syscontainer-tools
 
 * use device-hook instead of "isula update" to keep resource persistent in container.
 * add syslog support, all log will be written to syslog.
@@ -119,7 +119,7 @@ This is first initial release with lots of new features:
 * network-hook: move network interface from host to container when container starts.
 * oci-relabel-hook: relabel container's rootfs when container starts.
 
-### isulad-tools
+### syscontainer-tools
 
 New Commands:
 

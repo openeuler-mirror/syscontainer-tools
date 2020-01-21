@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -22,9 +22,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/vishvananda/netlink"
 
-	"isula.org/isulad-tools/libnetwork/drivers/common"
-	"isula.org/isulad-tools/libnetwork/nsutils"
-	"isula.org/isulad-tools/pkg/ethtool"
+	"isula.org/syscontainer-tools/libnetwork/drivers/common"
+	"isula.org/syscontainer-tools/libnetwork/nsutils"
+	"isula.org/syscontainer-tools/pkg/ethtool"
 )
 
 type ethDriver struct {

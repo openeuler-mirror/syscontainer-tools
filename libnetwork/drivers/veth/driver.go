@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -22,9 +22,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/vishvananda/netlink"
 
-	"isula.org/isulad-tools/libnetwork/drivers/common"
-	"isula.org/isulad-tools/libnetwork/nsutils"
-	"isula.org/isulad-tools/pkg/ethtool"
+	"isula.org/syscontainer-tools/libnetwork/drivers/common"
+	"isula.org/syscontainer-tools/libnetwork/nsutils"
+	"isula.org/syscontainer-tools/pkg/ethtool"
 )
 
 type vethDriver struct {
@@ -96,7 +96,7 @@ func (d *vethDriver) DeleteIf() error {
 	veth, err := netlink.LinkByName(d.GetHostNicName())
 	if err != nil {
 		// As add-nic supports 'update-config-only' option,
-		// With this flag, isulad-tools will update config only, don't add device to container.
+		// With this flag, syscontainer-tools will update config only, don't add device to container.
 		// So if device dose not exist on host, ignore it.
 		if strings.Contains(err.Error(), "Link not found") {
 			return nil
