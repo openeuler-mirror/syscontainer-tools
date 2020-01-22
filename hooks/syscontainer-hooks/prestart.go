@@ -96,6 +96,7 @@ func AddDevices(state *configs.HookState, hookConfig *hconfig.ContainerHookConfi
 		// re-calc the dest path of device.
 		resolvDev := calcPathForDevice(state.Root, dev)
 		device, err := libdevice.ParseDevice(resolvDev)
+		device.Root = state.Root
 		if err != nil {
 			logrus.Errorf("[device-hook] Add device (%s), parse device failed: %v", resolvDev, err)
 			return err

@@ -72,6 +72,7 @@ type Device struct {
 	GID         uint32      // Group ID
 	Allow       bool        // Used to differ add or remove
 	Parent      string      // Parent device name(pathonhost)
+	Root        string      // Rootfs path, prestart hook needed.
 }
 
 // Qos is the device Qos structure
