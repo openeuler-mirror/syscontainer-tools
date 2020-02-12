@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -20,12 +20,12 @@ import (
 	"path/filepath"
 
 	"github.com/opencontainers/runc/libcontainer/configs"
-	hconfig "isula.org/isulad-tools/config"
-	"isula.org/isulad-tools/libdevice"
-	"isula.org/isulad-tools/libnetwork"
-	"isula.org/isulad-tools/pkg/udevd"
-	"isula.org/isulad-tools/types"
-	"isula.org/isulad-tools/utils"
+	hconfig "isula.org/syscontainer-tools/config"
+	"isula.org/syscontainer-tools/libdevice"
+	"isula.org/syscontainer-tools/libnetwork"
+	"isula.org/syscontainer-tools/pkg/udevd"
+	"isula.org/syscontainer-tools/types"
+	"isula.org/syscontainer-tools/utils"
 
 	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/sirupsen/logrus"

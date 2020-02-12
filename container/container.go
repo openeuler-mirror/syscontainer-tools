@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -194,7 +194,7 @@ func getIsuladContainerSpec(id string) (spec *specs.Spec, err error) {
 	if err != nil {
 		return nil, err
 	}
-	configPath := fmt.Sprintf("%s/engines/lcr/%s/ociconfig.json", graphDriverPath, id)
+	configPath := fmt.Sprintf("%s/engines/lcr/%s/config.json", graphDriverPath, id)
 	config, err := os.Open(configPath)
 	if err != nil {
 		if os.IsNotExist(err) {

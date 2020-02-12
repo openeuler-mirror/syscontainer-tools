@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -20,10 +20,10 @@ import (
 	"path/filepath"
 	"syscall"
 
-	mymount "isula.org/isulad-tools/pkg/mount"
+	mymount "isula.org/syscontainer-tools/pkg/mount"
 	"github.com/docker/docker/pkg/mount"
 
-	"isula.org/isulad-tools/types"
+	"isula.org/syscontainer-tools/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -36,7 +36,7 @@ const (
 /* Add path to container when it is running
 
    We use mount propagation mechanism to do it. Take
-   isulad tools add-path /hostpath1:/guest1 for example.
+   syscontainer tools add-path /hostpath1:/guest1 for example.
 
 
    1. Add a sharing path using hook as belowing. Then every

@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -19,10 +19,10 @@ import (
 	"strings"
 
 	"github.com/sirupsen/logrus"
-	hconfig "isula.org/isulad-tools/config"
-	"isula.org/isulad-tools/container"
-	"isula.org/isulad-tools/libnetwork/drivers"
-	"isula.org/isulad-tools/types"
+	hconfig "isula.org/syscontainer-tools/config"
+	"isula.org/syscontainer-tools/container"
+	"isula.org/syscontainer-tools/libnetwork/drivers"
+	"isula.org/syscontainer-tools/types"
 )
 
 // AddNic will add a network interface to container, it will update the config for container

@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -15,12 +15,12 @@ package config
 
 import (
 	"fmt"
-	"isula.org/isulad-tools/types"
+	"isula.org/syscontainer-tools/types"
 	"path/filepath"
 )
 
 var (
-	// IsuladToolsDirNetns is isulad-tools netns dir
+	// IsuladToolsDirNetns is syscontainer-tools netns dir
 	IsuladToolsDirNetns = filepath.Join(IsuladToolsDir, "netns")
 )
 
@@ -95,7 +95,7 @@ func (config *ContainerHookConfig) UpdateNetworkInterface(nic *types.InterfaceCo
 	return nil
 }
 
-// IsRouteExist will check if the route is added by isulad-tools
+// IsRouteExist will check if the route is added by syscontainer-tools
 func (config *ContainerHookConfig) IsRouteExist(route *types.Route) bool {
 	for _, eRoute := range config.NetworkRoutes {
 		if types.IsSameRoute(route, eRoute) {

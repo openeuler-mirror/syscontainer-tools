@@ -1,5 +1,5 @@
 # Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-# isulad-tools is licensed under the Mulan PSL v1.
+# syscontainer-tools is licensed under the Mulan PSL v1.
 # You can use this software according to the terms and conditions of the Mulan PSL v1.
 # You may obtain a copy of Mulan PSL v1 at:
 #    http://license.coscl.org.cn/MulanPSL
@@ -41,8 +41,8 @@ setupImage(){
 
 setup_device_hook(){
 	mkdir -p /var/lib/isulad/hooks
-	cp $CUR/../hooks/isulad-hooks/example/hookspec.json /var/lib/isulad/hooks/
-	cp $CUR/../build/isulad-hooks /var/lib/isulad/hooks/
+	cp $CUR/../hooks/syscontainer-hooks/example/hookspec.json /var/lib/isulad/hooks/
+	cp $CUR/../build/syscontainer-hooks /var/lib/isulad/hooks/
 }
 
 main_test(){

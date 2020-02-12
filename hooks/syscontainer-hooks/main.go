@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -7,7 +7,7 @@
 // IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR
 // PURPOSE.
 // See the Mulan PSL v1 for more details.
-// Description: isulad hook main function
+// Description: syscontainer hook main function
 // Author: zhangwei
 // Create: 2018-01-18
 
@@ -27,15 +27,15 @@ import (
 	_ "github.com/opencontainers/runc/libcontainer/nsenter"
 	"github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/sirupsen/logrus"
-	hconfig "isula.org/isulad-tools/config"
-	"isula.org/isulad-tools/container"
-	"isula.org/isulad-tools/utils"
+	hconfig "isula.org/syscontainer-tools/config"
+	"isula.org/syscontainer-tools/container"
+	"isula.org/syscontainer-tools/utils"
 )
 
 var (
 	defaultHookConfigFile = "device_hook.json"
 	syslogTag             = "hook "
-	bundleConfigFile      = "ociconfig.json"
+	bundleConfigFile      = "config.json"
 )
 
 type hookData struct {
@@ -140,7 +140,7 @@ func prepareHookData() (*hookData, error) {
 
 func main() {
 	if reexec.Init() {
-		// `reexec routine` was registered in isulad-tools/libdevice
+		// `reexec routine` was registered in syscontainer-tools/libdevice
 		// Sub nsenter process will come here.
 		// Isulad reexec package do not handle errors.
 		// And sub device-hook nsenter init process will send back the error message to parenet through pipe.
@@ -150,9 +150,9 @@ func main() {
 	signal.Ignore(syscall.SIGINT, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM)
 
 	flLogfile := flag.String("log", "", "set output log file")
-	flMode := flag.String("state", "", "set isulad hook state mode: prestart or poststop")
+	flMode := flag.String("state", "", "set syscontainer hook state mode: prestart or poststop")
 	// No requirements at present, by default don't enable this function.
-	flWithRelabel := flag.Bool("with-relabel", false, "isulad hook enable oci relabel hook function")
+	flWithRelabel := flag.Bool("with-relabel", false, "syscontainer hook enable oci relabel hook function")
 
 	flag.Parse()
 
@@ -163,7 +163,7 @@ func main() {
 	}
 
 	if err := os.MkdirAll(hconfig.IsuladToolsDir, 0666); err != nil {
-		logrus.Errorf("failed to set isulad-tools dir: %v", err)
+		logrus.Errorf("failed to set syscontainer-tools dir: %v", err)
 	}
 
 	switch *flMode {

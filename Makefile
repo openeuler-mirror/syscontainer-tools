@@ -1,5 +1,5 @@
 # Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-# isulad-tools is licensed under the Mulan PSL v1.
+# syscontainer-tools is licensed under the Mulan PSL v1.
 # You can use this software according to the terms and conditions of the Mulan PSL v1.
 # You may obtain a copy of Mulan PSL v1 at:
 #    http://license.coscl.org.cn/MulanPSL
@@ -7,7 +7,7 @@
 # IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR
 # PURPOSE.
 # See the Mulan PSL v1 for more details.
-# Description: makefile for isulad-tools
+# Description: makefile for syscontainer-tools
 # Author: zhangwei
 # Create: 2018-01-18
 
@@ -17,29 +17,29 @@ DEPS_LINK := $(CURDIR)/vendor/
 TAGS="cgo static_build"
 VERSION := $(shell cat ./VERSION)
 
-BEP_DIR=/tmp/isulad-tools-build-bep
-BEP_FLAGS=-tmpdir=/tmp/isulad-tools-build-bep
+BEP_DIR=/tmp/syscontainer-tools-build-bep
+BEP_FLAGS=-tmpdir=/tmp/syscontainer-tools-build-bep
 
 GO_LDFLAGS="-s -w -buildid=IdByiSula -extldflags=-zrelro -extldflags=-znow $(BEP_FLAGS) -X main.gitCommit=${COMMIT} -X main.version=${VERSION}"
 ENV = GOPATH=${GOPATH} CGO_ENABLED=1
 
 ## PLEASE be noticed that the vendor dir can only work with golang > 1.6 !!
 
-all: dep isulad-tools isulad-hooks
+all: dep syscontainer-tools syscontainer-hooks
 dep:
 	mkdir -p $(BEP_DIR)
 
 init:
 	sh -x apply-patch
 
-isulad-tools: $(SOURCES) | $(DEPS_LINK)
-	@echo "Making isulad-tools..."
-	${ENV} go build -mod=vendor -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/isulad-tools .
+syscontainer-tools: $(SOURCES) | $(DEPS_LINK)
+	@echo "Making syscontainer-tools..."
+	${ENV} go build -mod=vendor -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/syscontainer-tools .
 	@echo "Done!"
 
-isulad-hooks: $(SOURCES) | $(DEPS_LINK)
-	@echo "Making isulad-hooks..."
-	${ENV} go build -mod=vendor -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/isulad-hooks ./hooks/isulad-hooks
+syscontainer-hooks: $(SOURCES) | $(DEPS_LINK)
+	@echo "Making syscontainer-hooks..."
+	${ENV} go build -mod=vendor -tags ${TAGS} -ldflags ${GO_LDFLAGS} -o build/syscontainer-hooks ./hooks/syscontainer-hooks
 	@echo "Done!"
 
 localtest:

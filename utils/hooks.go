@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -33,7 +33,7 @@ func getGraphDriverPath() (string, error) {
 		return "", err
 	}
 
-	// get /var/lib/isulad from /var/lib/isulad/hooks/isulad-hooks
+	// get /var/lib/isulad from /var/lib/isulad/hooks/syscontainer-hooks
 	dir := filepath.Dir(filepath.Dir(path))
 	return dir, nil
 }

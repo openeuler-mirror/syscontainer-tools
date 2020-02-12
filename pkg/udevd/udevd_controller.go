@@ -1,5 +1,5 @@
 // Copyright (c) Huawei Technologies Co., Ltd. 2018-2019. All rights reserved.
-// isulad-tools is licensed under the Mulan PSL v1.
+// syscontainer-tools is licensed under the Mulan PSL v1.
 // You can use this software according to the terms and conditions of the Mulan PSL v1.
 // You may obtain a copy of Mulan PSL v1 at:
 //    http://license.coscl.org.cn/MulanPSL
@@ -18,14 +18,14 @@ import (
 	"os"
 	"path/filepath"
 
-	hconfig "isula.org/isulad-tools/config"
+	hconfig "isula.org/syscontainer-tools/config"
 	"golang.org/x/sys/unix"
 )
 
 var (
-	programe   = "/lib/udev/isulad-tools_wrapper"
+	programe   = "/lib/udev/syscontainer-tools_wrapper"
 	lockFile   = "udevd_config_locker"
-	configPath = "/etc/udev/rules.d/99-isulad-tools.rules"
+	configPath = "/etc/udev/rules.d/99-syscontainer-tools.rules"
 )
 
 // Rule defines an udev rule which used to capture the partition udev event

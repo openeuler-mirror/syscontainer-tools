@@ -2,12 +2,12 @@
 %define  debug_package %{nil}
 
 #Basic Information
-Name:           isulad-tools
+Name:           syscontainer-tools
 Version:        v0.9
-Release:        34
-Summary:        isulad tools for IT, work with iSulad
+Release:        35
+Summary:        syscontainer tools for IT, work with iSulad
 License:        Mulan PSL v1
-URL:            https://gitee.com/src-openeuler/iSulad-tools
+URL:            https://gitee.com/src-openeuler/syscontainer-tools
 Source0:        %{name}-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-root
 
@@ -18,11 +18,11 @@ Requires: iSulad
 Requires: util-linux
 
 %description
-This is isulad tools, to make it work, you need a isulad and util-linux
+This is syscontainer tools, to make it work, you need a isulad and util-linux
 
 #Build sections
 %prep
-%setup -q -c -n src/isula.org/isulad-tools
+%setup -q -c -n src/isula.org/syscontainer-tools
 
 %build
 make init && make
@@ -36,9 +36,9 @@ mkdir -p -m 0700 ${HOOK_DIR}
 mkdir -p -m 0750 ${ISULAD_TOOLS_DIR}
 mkdir -p -m 0750 ${ISULAD_TOOLS_WRAPPER}
 
-install -m 0750 build/isulad-hooks ${HOOK_DIR}
-install -m 0750 build/isulad-tools ${ISULAD_TOOLS_DIR}
-install -m 0750 hack/isulad-tools_wrapper  ${ISULAD_TOOLS_WRAPPER}/isulad-tools_wrapper
+install -m 0750 build/syscontainer-hooks ${HOOK_DIR}
+install -m 0750 build/syscontainer-tools ${ISULAD_TOOLS_DIR}
+install -m 0750 hack/syscontainer-tools_wrapper  ${ISULAD_TOOLS_WRAPPER}/syscontainer-tools_wrapper
 
 #Install and uninstall scripts
 %pre
@@ -53,15 +53,15 @@ fi
 
 if [[ "$GRAPH" != "/var/lib/isulad" ]]; then
     mkdir -p -m 0550 $GRAPH/hooks
-    install -m 0550 -p /var/lib/isulad/hooks/isulad-hooks $GRAPH/hooks
+    install -m 0550 -p /var/lib/isulad/hooks/syscontainer-hooks $GRAPH/hooks
 
     echo
     echo "=================== WARNING! ================================================"
-    echo " 'iSulad Root Dir' is $GRAPH, move /var/lib/isulad/hooks/isulad-hooks to  $GRAPH/hooks"
+    echo " 'iSulad Root Dir' is $GRAPH, move /var/lib/isulad/hooks/syscontainer-hooks to  $GRAPH/hooks"
     echo "============================================================================="
     echo
 fi
-HOOK_SPEC=/etc/isulad-tools
+HOOK_SPEC=/etc/syscontainer-tools
 HOOK_DIR=${GRAPH}/hooks
 mkdir -p -m 0750 ${HOOK_SPEC}
 mkdir -p -m 0550 ${HOOK_DIR}
@@ -69,22 +69,22 @@ cat << EOF > ${HOOK_SPEC}/hookspec.json
 {
         "prestart": [
         {
-                "path": "${HOOK_DIR}/isulad-hooks",
-                "args": ["isulad-hooks", "--state", "prestart"],
+                "path": "${HOOK_DIR}/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "prestart"],
                 "env": []
         }
         ],
         "poststart":[
         {
-                "path": "${HOOK_DIR}/isulad-hooks",
-                "args": ["isulad-hooks", "--state", "poststart"],
+                "path": "${HOOK_DIR}/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "poststart"],
                 "env": []
         }
 	],
         "poststop":[
         {
-                "path": "${HOOK_DIR}/isulad-hooks",
-                "args": ["isulad-hooks", "--state", "poststop"],
+                "path": "${HOOK_DIR}/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "poststop"],
                 "env": []
         }
 	]
@@ -97,10 +97,10 @@ chmod 0640 ${HOOK_SPEC}/hookspec.json
 #Files list
 %files
 %defattr(0550,root,root,0550)
-/usr/local/bin/isulad-tools
+/usr/local/bin/syscontainer-tools
 %attr(0550,root,root) /var/lib/isulad/hooks
-%attr(0550,root,root) /var/lib/isulad/hooks/isulad-hooks
-%attr(0550,root,root) /lib/udev/isulad-tools_wrapper
+%attr(0550,root,root) /var/lib/isulad/hooks/syscontainer-hooks
+%attr(0550,root,root) /lib/udev/syscontainer-tools_wrapper
 
 
 #Clean section
@@ -108,6 +108,12 @@ chmod 0640 ${HOOK_SPEC}/hookspec.json
 rm -rfv %{buildroot}
 
 %changelog
+* Tue Jan 07 2020 Zhangsong<zhangsong34@huawei.com> - 0.9.35
+- Type:enhancement
+- ID:NA
+- SUG:restart
+- DESC:update package
+
 * Tue Dec 26 2019 Zhangsong<zhangsong34@huawei.com> - 0.9.34
 - Type:enhancement
 - ID:NA
@@ -124,7 +130,7 @@ rm -rfv %{buildroot}
 - Type:enhancement
 - ID:NA
 - SUG:restart
-- DESC:rebuild patches for isulad-tools
+- DESC:rebuild patches for syscontainer-tools
 
 * Fri Nov 02 2018 Zhangsong<zhangsong34@huawei.com> - 0.9.7-1
 - Type:enhancement

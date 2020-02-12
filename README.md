@@ -1,38 +1,38 @@
-# isulad-tools
+# syscontainer-tools
 
 ## Introduction
 
-**isulad-tools** is a fully customized tool,
+**syscontainer-tools** is a fully customized tool,
 it is a small auxiliary tool which is expected to work with isulad with hook support,
 and provides enhanced functions which is inappropriate to be included in isulad itself.
 
-The project includes two main parts: `isulad-tools` and `hooks`.
-`isulad-tools` is used for dynamically operating on running containers,
+The project includes two main parts: `syscontainer-tools` and `hooks`.
+`syscontainer-tools` is used for dynamically operating on running containers,
 and `hooks` is used for executing user defined program at some special timepoint of container's lifecycle.
 
 ## Hooks
 
-We provide isulad hooks function.
+We provide syscontainer hooks function.
 
-* isulad-hooks:
- 1. insert block devices added by isulad-tools into container when container restarts(prestart state).
- 2. insert network interfaces and route rules added by isulad-tools into container when container restarts(prestart state).
+* syscontainer-hooks:
+ 1. insert block devices added by syscontainer-tools into container when container restarts(prestart state).
+ 2. insert network interfaces and route rules added by syscontainer-tools into container when container restarts(prestart state).
  3. remove udev rules and leaking network interfaces when container stops(post-stop state).
  4. handling oci relabel for container in prestart and post stop state.
 
 You could use hook spec to customise your hooks.
-For detailed information, See [introduction of isulad-hooks](hooks/isulad-hooks/README.md)
+For detailed information, See [introduction of syscontainer-hooks](hooks/syscontainer-hooks/README.md)
 
-## isulad-tools
+## syscontainer-tools
 
-Basic usage of `isulad-tools`:
+Basic usage of `syscontainer-tools`:
 
 ```
 NAME:
-   isulad-tools - Enhanced tools for IT isulad
+   syscontainer-tools - Enhanced tools for IT isulad
 
 USAGE:
-   isulad-tools [global options] command [command options] [arguments...]
+   syscontainer-tools [global options] command [command options] [arguments...]
 
 VERSION:
    v0.9
@@ -58,7 +58,7 @@ GLOBAL OPTIONS:
    --version, -v                        print the version
 ```
 
-For usage of each command, you can check with `--help`, e.g. `isulad-tools add-device --help`
+For usage of each command, you can check with `--help`, e.g. `syscontainer-tools add-device --help`
 
 ## Contributions
 
