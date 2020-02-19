@@ -4,7 +4,7 @@
 #Basic Information
 Name:           syscontainer-tools
 Version:        v0.9
-Release:        35
+Release:        36
 Summary:        syscontainer tools for IT, work with iSulad
 License:        Mulan PSL v1
 URL:            https://gitee.com/src-openeuler/syscontainer-tools
