@@ -151,8 +151,8 @@ func (c *Container) GetCgroupPath() (string, error) {
         cgroupPath = cgroupPath[1 : len(cgroupPath)-1]
     }
 	if cgroupPath == "" {
-		// by default, the cgroup path is "/lxc/<id>"
-		cgroupPath = "/lxc"
+		// by default, the cgroup path is "/isulad/<id>"
+		cgroupPath = "/isulad"
 	}
 	cgroupPath = filepath.Join(cgroupPath, c.containerID)
 	return cgroupPath, nil
