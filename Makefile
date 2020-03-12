@@ -20,7 +20,7 @@ VERSION := $(shell cat ./VERSION)
 BEP_DIR=/tmp/syscontainer-tools-build-bep
 BEP_FLAGS=-tmpdir=/tmp/syscontainer-tools-build-bep
 
-GO_LDFLAGS="-s -w -buildid=IdByiSula -extldflags=-zrelro -extldflags=-znow $(BEP_FLAGS) -X main.gitCommit=${COMMIT} -X main.version=${VERSION}"
+GO_LDFLAGS="-w -buildid=IdByiSula -extldflags -static $(BEP_FLAGS) -X main.gitCommit=${COMMIT} -X main.version=${VERSION}"
 ENV = GOPATH=${GOPATH} CGO_ENABLED=1
 
 ## PLEASE be noticed that the vendor dir can only work with golang > 1.6 !!
