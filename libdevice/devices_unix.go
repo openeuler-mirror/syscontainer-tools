@@ -18,15 +18,16 @@ package libdevice
 import (
 	"errors"
 	"fmt"
-	"github.com/mrunalp/fileutils"
-	"github.com/sirupsen/logrus"
-	"golang.org/x/sys/unix"
-	"isula.org/syscontainer-tools/types"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"syscall"
+
+	"github.com/mrunalp/fileutils"
+	"github.com/sirupsen/logrus"
+	"golang.org/x/sys/unix"
+	"isula.org/syscontainer-tools/types"
 )
 
 var (
@@ -286,7 +287,6 @@ func AddDeviceToSysBlock(node *types.Device) error {
 	if err != nil {
 		return err
 	}
-	hostDeviceName := filepath.Base(realPath)
 	containerDeviceName := filepath.Base(node.Path)
 	if err := os.Chdir(filepath.Join(node.Root, MountSourcePath)); err != nil {
 		return err
@@ -303,14 +303,6 @@ func AddDeviceToSysBlock(node *types.Device) error {
 	if err := os.Symlink(destPath, containerDeviceName); err != nil {
 		return err
 	}
-	if err := os.Chdir(filepath.Join(node.Root, "/dev")); err != nil {
-		return err
-	}
-	if hostDeviceName != containerDeviceName {
-		if _, err := os.Stat(hostDeviceName); os.IsNotExist(err) {
-			return os.Symlink(containerDeviceName, hostDeviceName)
-		}
-	}
 	return nil
 }
 
@@ -318,19 +310,10 @@ func AddDeviceToSysBlock(node *types.Device) error {
 func RemoveDeviceFromSysBlock(path string) error {
 	containerDeviceName := filepath.Base(path)
 	linkPath := filepath.Join(MountDestPath, containerDeviceName)
-	realPath, err := os.Readlink(linkPath)
-	if err != nil {
-		return err
-	}
-	hostDeviceName := filepath.Base(realPath)
-	devPath := filepath.Join("/dev", hostDeviceName)
 	if _, err := os.Lstat(linkPath); err == nil {
 		if err := os.Remove(linkPath); err != nil {
 			return err
 		}
-	}
-	if hostDeviceName != containerDeviceName {
-		return os.Remove(devPath)
 	}
 	return nil
 }
