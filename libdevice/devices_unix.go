@@ -18,26 +18,20 @@ package libdevice
 import (
 	"errors"
 	"fmt"
-	"github.com/mrunalp/fileutils"
-	"github.com/sirupsen/logrus"
-	"golang.org/x/sys/unix"
-	"isula.org/syscontainer-tools/types"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"syscall"
+
+	"isula.org/syscontainer-tools/types"
+
+	"github.com/sirupsen/logrus"
 )
 
 var (
 	// ErrNotADevice not a device error
 	ErrNotADevice = errors.New("not a device")
-	// MountSourcePath mount source path
-	MountSourcePath = "/mnt/sys/block"
-	// DevBlockPath device block path
-	DevBlockPath = "/sys/dev/block"
-	// MountDestPath mount dest path
-	MountDestPath = "/sys/block"
 )
 
 // Testing dependencies
@@ -247,92 +241,6 @@ func MknodDevice(dest string, node *types.Device) error {
 		return err
 	}
 	return syscall.Chown(dest, int(node.UID), int(node.GID))
-}
-
-// prepareSysBlockMount bind mount /mnt/sys/block to /sys/block
-func prepareSysBlockMount(root string) error {
-	if unix.Access(filepath.Join(root, MountDestPath), unix.W_OK) == nil {
-		return nil
-	}
-	if err := os.RemoveAll(filepath.Join(root, MountSourcePath)); err != nil {
-		return err
-	}
-	if err := fileutils.CopyDirectory(
-		filepath.Join(root, MountDestPath),
-		filepath.Join(root, MountSourcePath)); err != nil {
-		return err
-	}
-	if err := syscall.Mount(
-		filepath.Join(root, MountSourcePath),
-		filepath.Join(root, MountDestPath),
-		"",
-		syscall.MS_BIND|syscall.MS_REC, ""); err != nil {
-		return err
-	}
-	return nil
-}
-
-// AddDeviceToSysBlock add device to /sys/block in container
-func AddDeviceToSysBlock(node *types.Device) error {
-	if err := prepareSysBlockMount(node.Root); err != nil {
-		return err
-	}
-	devStr := fmt.Sprintf("%d:%d", node.Major, node.Minor)
-	linkPath := filepath.Join(DevBlockPath, devStr)
-	if _, err := os.Lstat(linkPath); os.IsNotExist(err) {
-		return err
-	}
-	realPath, err := os.Readlink(linkPath)
-	if err != nil {
-		return err
-	}
-	hostDeviceName := filepath.Base(realPath)
-	containerDeviceName := filepath.Base(node.Path)
-	if err := os.Chdir(filepath.Join(node.Root, MountSourcePath)); err != nil {
-		return err
-	}
-	if _, err := os.Lstat(containerDeviceName); err == nil {
-		if err := os.Remove(containerDeviceName); err != nil {
-			return err
-		}
-	}
-	destPath := strings.Replace(realPath, "../", "", 1)
-	if destPath == "" {
-		return nil
-	}
-	if err := os.Symlink(destPath, containerDeviceName); err != nil {
-		return err
-	}
-	if err := os.Chdir(filepath.Join(node.Root, "/dev")); err != nil {
-		return err
-	}
-	if hostDeviceName != containerDeviceName {
-		if _, err := os.Stat(hostDeviceName); os.IsNotExist(err) {
-			return os.Symlink(containerDeviceName, hostDeviceName)
-		}
-	}
-	return nil
-}
-
-// RemoveDeviceFromSysBlock remove device from /sys/block in container
-func RemoveDeviceFromSysBlock(path string) error {
-	containerDeviceName := filepath.Base(path)
-	linkPath := filepath.Join(MountDestPath, containerDeviceName)
-	realPath, err := os.Readlink(linkPath)
-	if err != nil {
-		return err
-	}
-	hostDeviceName := filepath.Base(realPath)
-	devPath := filepath.Join("/dev", hostDeviceName)
-	if _, err := os.Lstat(linkPath); err == nil {
-		if err := os.Remove(linkPath); err != nil {
-			return err
-		}
-	}
-	if hostDeviceName != containerDeviceName {
-		return os.Remove(devPath)
-	}
-	return nil
 }
 
 // SetDefaultPath set default path for device
