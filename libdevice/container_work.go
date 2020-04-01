@@ -237,12 +237,6 @@ func doAddDevice(pipe *os.File) error {
 	if err := MknodDevice(device.Path, device); err != nil {
 		return fmt.Errorf("Current OS kernel do not support mknod in container user namespace for root, err: %s", err)
 	}
-	if device.Type == "b" {
-		// fdisk: add device soft link to /sys/block
-		if err := AddDeviceToSysBlock(device); err != nil {
-			return fmt.Errorf("Add device to /sys/block failed: %s", device, err)
-		}
-	}
 	return nil
 }
 
@@ -261,12 +255,7 @@ func doRemoveDevice(pipe *os.File) error {
 	if _, err := DeviceFromPath(device.Path, ""); err != nil {
 		return err
 	}
-	if device.Type == "b" {
-		// fdisk: remove device symlink in /sys/block
-		if err := RemoveDeviceFromSysBlock(device.Path); err != nil {
-			return err
-		}
-	}
+
 	// need strict check here?
 	return os.Remove(device.Path)
 }
