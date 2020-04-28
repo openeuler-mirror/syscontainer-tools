@@ -4,9 +4,9 @@
 #Basic Information
 Name:           syscontainer-tools
 Version:        v0.9
-Release:        36
+Release:        37
 Summary:        syscontainer tools for IT, work with iSulad
-License:        Mulan PSL v1
+License:        Mulan PSL v2
 URL:            https://gitee.com/src-openeuler/syscontainer-tools
 Source0:        %{name}-src.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-root
@@ -108,6 +108,9 @@ chmod 0640 ${HOOK_SPEC}/hookspec.json
 rm -rfv %{buildroot}
 
 %changelog
+* Tue Apr 27 2020 zhangtianyang <zhangtianyang2@huawei.com> - 0.9.37
+- update license to Mulan PSL v2
+
 * Tue Jan 07 2020 Zhangsong<zhangsong34@huawei.com> - 0.9.35
 - Type:enhancement
 - ID:NA
