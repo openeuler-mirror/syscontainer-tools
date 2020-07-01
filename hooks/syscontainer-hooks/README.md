@@ -88,7 +88,5 @@ Let's check the [`hookspec.json`](example/hookspec.json) file:
 
 # Contact me
 
-If you have any question or suggestion, contact me!
+If you have any question or suggestion, please contact: isulad@openeuler.org.
 Also welcome for any issue or MR! Thanks!
-
-Author: Zhang Wentao <zhangwentao234@huawei.com>

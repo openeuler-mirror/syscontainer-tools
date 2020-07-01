@@ -64,4 +64,4 @@ For usage of each command, you can check with `--help`, e.g. `syscontainer-tools
 
 As this is a fully customized tool, I don't think anyone will be interested in contributing to this project,
 but we welcome your contributions. Before contributing, please make sure you understand our needs and
-make a communication with us.
+make a communication with us: isulad@openeuler.org.
