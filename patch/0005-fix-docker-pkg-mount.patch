@@ -1,0 +1,13 @@
+diff --git a/github.com/opencontainers/runc/libcontainer/rootfs_linux.go b/vendor/github.com/opencontainers/runc/libcontainer/rootfs_linux.go
+index 7b4fc00..2635fd6 100644
+--- a/github.com/opencontainers/runc/libcontainer/rootfs_linux.go
++++ b/vendor/github.com/opencontainers/runc/libcontainer/rootfs_linux.go
+@@ -539,7 +539,7 @@ func getMountInfo(mountinfo []*mount.Info, dir string) *mount.Info {
+ func getParentMount(rootfs string) (string, string, error) {
+ 	var path string
+ 
+-	mountinfos, err := mount.GetMounts(nil)
++	mountinfos, err := mount.GetMounts()
+ 	if err != nil {
+ 		return "", "", err
+ 	}

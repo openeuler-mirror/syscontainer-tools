@@ -1,0 +1,21 @@
+diff --git a/vendor/github.com/opencontainers/runtime-spec/specs-go/config.go b/vendor/github.com/opencontainers/runtime-spec/specs-go/config.go
+index bd8e96a..68839d3 100644
+--- a/vendor/github.com/opencontainers/runtime-spec/specs-go/config.go
++++ b/vendor/github.com/opencontainers/runtime-spec/specs-go/config.go
+@@ -29,6 +29,16 @@ type Spec struct {
+ 	Windows *Windows `json:"windows,omitempty" platform:"windows"`
+ }
+ 
++type CompatSpec struct {
++	Spec
++	Process CompatProcess `json:"process"`
++}
++
++type CompatProcess struct {
++	Process
++	Capabilities []string `json:"capabilities,omitempty" platform:"linux"`
++}
++
+ // Process contains information to start a specific application inside the container.
+ type Process struct {
+ 	// Terminal creates an interactive terminal for the container.

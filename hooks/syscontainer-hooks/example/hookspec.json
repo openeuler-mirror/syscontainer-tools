@@ -1,0 +1,23 @@
+{
+        "prestart": [
+        {
+                "path": "/var/lib/isulad/hooks/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "prestart", "--log", "/var/log/device-hook.log"],
+                "env": []
+        }
+        ],
+        "poststart":[
+        {
+                "path": "/var/lib/isulad/hooks/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "prestart", "--log", "/var/log/device-hook.log"],
+                "env": []
+        }
+	],
+        "poststop":[
+        {
+                "path": "/var/lib/isulad/hooks/syscontainer-hooks",
+                "args": ["syscontainer-hooks", "--state", "poststop", "--log", "/var/log/device-hook.log"],
+                "env": []
+        }
+	]
+}

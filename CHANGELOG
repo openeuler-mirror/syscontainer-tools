@@ -1,0 +1,130 @@
+# CHANGELOG
+
+## v0.9 (2017-9-1)
+
+* Add list-nic command and change remove-nic --name paramer form (MR: #93)
+* Update config only when container isn't running (MR: #94)
+* Add new parameters (--pretty/--filter) about nic/route commands (MR: #95)
+* Add list route command (MR: #95)
+
+## v0.8 (2017-8-16)
+
+### general
+
+* change Mtu range (MR: #80)
+* remove 'add-path/remove-path' commands from syscontainer-tools (MR: #82)
+* network: config net device 'tx/sg/tso' on (MR: #81)
+* fix some minor issue(security check, file mode...) (MR: #84)
+* fix when supply empty mac address, `add-nic` will panic (MR: #85)
+* add '--update-config-only' option for add resources (MR: #89)
+* add 'follow-partition' for add/remove device (MR: #86)
+
+## v0.7 (2017-6-29)
+
+### general
+
+* reorginzed the syscontainer-tools code  (MR: #75)
+* use`syscontainer-tools` in `syscontainer-tools_wrapper` instead of `isula exec` (MR: #76)
+* fix filelock can't lock accross the process issue (MR: #78)
+
+### hooks
+
+* combine 3 hooks binary to `syscontainer-hooks` (MR: #75)
+
+## v0.6 (2017-6-23)
+
+### general
+
+* syscontainer-tools add `add-route & del-nic & del-route` command line. (MR: #71, #68)
+* syscontainer-tools add-nic supports network interface config. (MR: #68)
+* syscontainer-tools supports fidsk in container. (MR: #70)
+* syscontainer-tools could only remove the devices added by syscontainer-tools (MR: #66)
+
+### network-hook
+
+* supports persistent network config for both interfaces and route rules. (MR: #69)
+
+## v0.5 (2017-2-15)
+
+### general
+
+* fix some dir permissions for potential security risk. (MR: #56, #57, #62)
+* move empty_systemd.sh to iSulad project. (MR: #60)
+
+### syscontainer-tools
+
+* fix syscontainer-tools subcommand display orders. (MR: #55)
+* when iSulad daemon and syscontainer-tools are not in the same cgroup path, device-hook will fail to update cgroup permissions. (MR: #58)
+* when containers specify cgroup folder (with `--cgroup-parent` flag), syscontainer-tools will fail to update device cgroup permissions. (MR: #64)
+
+### oci-relabel-hook
+
+* Fix systemd's context type if host use iSulad image's SELinux policy. (MR: #61)
+
+## v0.4 (2017-1-24)
+
+### general
+
+* fix some golang security problems based on review comments
+
+### syscontainer-tools
+
+* Fix find cgroup path issue when syscontainer-tools run in container
+* Add upstart support for system container
+
+## v0.3 (2017-1-9)
+
+### general
+
+* use "go+c" function call to take over "exec nsenter"
+* add golang 1.5.4 support
+
+### hooks
+
+* device-hook: Update cgroup permission in prestart hook not poststart
+* oci-relabel-hook: Use golang to refact oci-relabel-hook
+
+### syscontainer-tools
+
+* Add "--force" flag for `syscontainer-tools add-device`
+
+* can not use fdisk to partition when add a device to a container
+
+## v1.11.2.8.it
+
+### hooks
+
+* device-hook: newly introduced device hook to save config for new added devices.
+* oci-relabel-hook: use container's SELinux policy to adapt various images.
+
+### syscontainer-tools
+
+* use device-hook instead of "isula update" to keep resource persistent in container.
+* add syslog support, all log will be written to syslog.
+* add "make rpm" support in Makefile.
+
+### bug fix
+
+* can not add read-only mount path to container.
+* add resource to system container, then use reboot to restart container, then resource can not be found after next reboot.
+* validate network interface name in container, error out if it's empty.
+* error out when insert network interface to non-existing container.
+
+## v1.11.2.7.it
+
+This is first initial release with lots of new features:
+
+### hooks
+
+* network-hook: move network interface from host to container when container starts.
+* oci-relabel-hook: relabel container's rootfs when container starts.
+
+### syscontainer-tools
+
+New Commands:
+
+* add-device: dynamically add new device into running container.
+* remove-device: remove device from running container.
+* add-path: dynamically bind mount host path to container path.
+* remove-path: remove bind mount path from container.
+* add-nic: dynamically move physical/virtual network interfaces into container.
