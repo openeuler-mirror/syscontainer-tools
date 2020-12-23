@@ -1,8 +1,6 @@
 # github.com/Microsoft/go-winio v0.4.14
 github.com/Microsoft/go-winio
 github.com/Microsoft/go-winio/pkg/guid
-# github.com/Sirupsen/logrus v0.0.0-00010101000000-000000000000 => github.com/sirupsen/logrus v1.4.2
-github.com/Sirupsen/logrus
 # github.com/coreos/go-systemd v0.0.0-20161114122254-48702e0da86b
 github.com/coreos/go-systemd/dbus
 github.com/coreos/go-systemd/util

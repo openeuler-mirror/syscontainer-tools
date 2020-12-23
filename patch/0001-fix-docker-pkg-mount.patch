@@ -1,8 +1,8 @@
 diff --git a/vendor/github.com/docker/docker/pkg/mount/flags.go b/vendor/github.com/docker/docker/pkg/mount/flags.go
-index d2fb1fb..0f6fd61 100644
+index 607dbed..11c92f6 100644
 --- a/vendor/github.com/docker/docker/pkg/mount/flags.go
 +++ b/vendor/github.com/docker/docker/pkg/mount/flags.go
-@@ -90,3 +90,7 @@ func ParseTmpfsOptions(options string) (int, string, error) {
+@@ -147,3 +147,7 @@ func ParseTmpfsOptions(options string) (int, string, error) {
  	}
  	return flags, data, nil
  }
