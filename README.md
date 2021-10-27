@@ -12,11 +12,10 @@ and `hooks` is used for executing user-defined programs at some special time poi
 
 ## Hooks
 
-We provide syscontainer hooks function.
+We provide `syscontainer-hooks` with the following functions:
 
-* syscontainer-hooks can:
- 1. Insert block devices added by syscontainer-tools into a container when the container restarts (pre-start state).
- 2. Insert network interfaces and route rules added by syscontainer-tools into a container when the container restarts (pre-start state).
+ 1. Insert block devices added by `syscontainer-tools` into a container when the container restarts (pre-start state).
+ 2. Insert network interfaces and route rules added by `syscontainer-tools` into a container when the container restarts (pre-start state).
  3. Remove udev rules and leaked network interfaces when a container stops (post-stop state).
  4. Handle OCI relabeling for containers in pre-start and post-stop states.
 
@@ -58,7 +57,7 @@ GLOBAL OPTIONS:
    --version, -v                        print the version
 ```
 
-For usage of each command, you can check with `--help`, e.g. `syscontainer-tools add-device --help`
+For usage of each command, you can check with `--help`, for example, `syscontainer-tools add-device --help`.
 
 ## Contributions
 
