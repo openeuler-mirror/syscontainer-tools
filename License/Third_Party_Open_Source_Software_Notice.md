@@ -361,6 +361,12 @@ Copyright 2011-2016 Canonical Ltd.
 License: Apache License Version 2.0
 Please see above
 
+Software: vendor/github.com/konsorten/go-windows-terminal-sequences v1.0.1
+Copyright notice:
+Copyright (c) 2017 marvin + konsorten GmbH (open-source@konsorten.de)
+License: MIT License
+Please see above
+
 Written Offer
 
 This product contains software whose rights holders license it on the terms of the GNU General Public License, version 2 (GPLv2) and/or other open source software licenses. We will provide you and any third party with the source code of the software licensed under an open source software license if you send us a written request by mail or email to the following addresses: 
